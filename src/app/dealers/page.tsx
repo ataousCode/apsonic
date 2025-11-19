@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import DistributorCTA from "@/components/DistributorCTA";
 import DealerMap from "@/components/DealerMap";
 import DealerCard from "@/components/DealerCard";
+import MapboxDiagnostic from "@/components/MapboxDiagnostic";
 
 type FilterValue = DealerCategory | "all";
 
@@ -181,6 +182,9 @@ export default function DealersPage() {
       </PageSection>
 
       <DistributorCTA />
+      
+      {/* Temporary diagnostic panel */}
+      <MapboxDiagnostic />
     </main>
   );
 }

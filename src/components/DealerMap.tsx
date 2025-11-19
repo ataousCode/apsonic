@@ -32,23 +32,39 @@ export default function DealerMap({
   const map = useRef<mapboxgl.Map | null>(null);
   const markers = useRef<mapboxgl.Marker[]>([]);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapError, setMapError] = useState<string | null>(null);
 
   // Initialize map
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
     // Set Mapbox token
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
+    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
+    
+    // Check if token exists
+    if (!token || token === 'pk.eyJ1IjoiYXBzb25pYyIsImEiOiJjbHh4eHh4eHh4In0.xxxxxxxxxxxxxxxxxxxxxx') {
+      setMapError('Mapbox token not configured. Please add NEXT_PUBLIC_MAPBOX_TOKEN to .env.local');
+      console.error('❌ Mapbox token missing! Please add it to .env.local');
+      return;
+    }
 
-    // Create map
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/dark-v11',
-      center: [0, 8], // Center on Africa
-      zoom: 3,
-      minZoom: 2,
-      maxZoom: 18,
-    });
+    mapboxgl.accessToken = token;
+
+    try {
+      // Create map
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/dark-v11',
+        center: [0, 8], // Center on Africa
+        zoom: 3,
+        minZoom: 2,
+        maxZoom: 18,
+      });
+    } catch (error) {
+      console.error('❌ Error creating map:', error);
+      setMapError('Failed to initialize map. Check console for details.');
+      return;
+    }
 
     // Add navigation controls
     map.current.addControl(
@@ -66,7 +82,13 @@ export default function DealerMap({
     );
 
     map.current.on('load', () => {
+      console.log('✅ Map loaded successfully!');
       setMapLoaded(true);
+    });
+
+    map.current.on('error', (e) => {
+      console.error('❌ Map error:', e.error);
+      setMapError(`Map error: ${e.error.message || 'Unknown error'}`);
     });
 
     return () => {
@@ -80,6 +102,8 @@ export default function DealerMap({
   useEffect(() => {
     if (!map.current || !mapLoaded) return;
 
+    console.log(`📍 Adding ${dealers.length} dealers to map (filter: ${activeFilter})`);
+
     // Remove existing markers
     markers.current.forEach(marker => marker.remove());
     markers.current = [];
@@ -88,6 +112,8 @@ export default function DealerMap({
     const filteredDealers = activeFilter === 'all' 
       ? dealers 
       : dealers.filter(d => d.categories.includes(activeFilter));
+
+    console.log(`✅ Filtered to ${filteredDealers.length} dealers`);
 
     // Add markers for filtered dealers
     filteredDealers.forEach(dealer => {
@@ -209,7 +235,29 @@ export default function DealerMap({
     <div className={cn('relative w-full h-full', className)}>
       <div ref={mapContainer} className="absolute inset-0 rounded-3xl overflow-hidden" />
       
-      {!mapLoaded && (
+      {/* Error State */}
+      {mapError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-red-900/20 backdrop-blur-sm rounded-3xl border-2 border-red-500/30">
+          <div className="text-center max-w-md p-6">
+            <svg className="h-16 w-16 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <p className="text-sm font-semibold text-red-200 mb-2">Map Error</p>
+            <p className="text-xs text-red-300/80 mb-4">{mapError}</p>
+            <div className="glass-panel rounded-xl p-4 text-left text-xs text-white/70 space-y-2">
+              <p className="font-semibold text-white">Quick Fix:</p>
+              <ol className="list-decimal list-inside space-y-1">
+                <li>Get token from: <a href="https://account.mapbox.com/access-tokens/" target="_blank" className="text-apsonic-green hover:underline">Mapbox</a></li>
+                <li>Add to <code className="bg-black/30 px-1 rounded">.env.local</code></li>
+                <li>Restart dev server</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Loading State */}
+      {!mapLoaded && !mapError && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm rounded-3xl">
           <div className="text-center">
             <div className="h-12 w-12 mx-auto mb-4 rounded-full border-4 border-apsonic-green border-t-transparent animate-spin" />
