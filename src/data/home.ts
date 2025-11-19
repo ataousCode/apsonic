@@ -12,6 +12,24 @@ export const heroImages = [
   "/assets/images/home/img3.png",
 ];
 
+export const latest360Bike = {
+  title: "APSONIC ADV 250X",
+  subtitle: "Latest Model",
+  description: "Our most advanced adventure motorcycle yet. Built for African terrain with enhanced suspension, powerful EFI engine, and premium components. Experience the future of mobility.",
+  images: [
+    "/assets/images/home/img1.png", // Front view
+    "/assets/images/home/img2.jpeg", // Side view
+    "/assets/images/home/img3.png", // Rear view
+    "/assets/images/home/img4.png", // Other side view
+  ],
+  specs: [
+    { label: "Engine", value: "250cc EFI" },
+    { label: "Power", value: "18.5 HP" },
+    { label: "Transmission", value: "6-Speed" },
+    { label: "Range", value: "450 km" },
+  ],
+};
+
 export const modelsCarouselItems: ModelCarouselItem[] = [
   {
     id: "adv-200",
