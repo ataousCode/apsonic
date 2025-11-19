@@ -36,10 +36,23 @@ export default function DealerMap({
 
   // Initialize map
   useEffect(() => {
-    if (!mapContainer.current || map.current) return;
+    console.log('🗺️ DealerMap useEffect triggered');
+    console.log('  mapContainer.current:', !!mapContainer.current);
+    console.log('  map.current:', !!map.current);
+    
+    if (!mapContainer.current) {
+      console.error('❌ Map container ref is null!');
+      return;
+    }
+    
+    if (map.current) {
+      console.log('⚠️ Map already initialized, skipping');
+      return;
+    }
 
     // Set Mapbox token
     const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
+    console.log('🔑 Token check:', token ? `${token.substring(0, 20)}...` : 'NOT SET');
     
     // Check if token exists
     if (!token || token === 'pk.eyJ1IjoiYXBzb25pYyIsImEiOiJjbHh4eHh4eHh4In0.xxxxxxxxxxxxxxxxxxxxxx') {
@@ -48,9 +61,11 @@ export default function DealerMap({
       return;
     }
 
+    console.log('✅ Token valid, setting mapboxgl.accessToken...');
     mapboxgl.accessToken = token;
 
     try {
+      console.log('🏗️ Creating map instance...');
       // Create map
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -60,9 +75,10 @@ export default function DealerMap({
         minZoom: 2,
         maxZoom: 18,
       });
+      console.log('✅ Map instance created successfully');
     } catch (error) {
       console.error('❌ Error creating map:', error);
-      setMapError('Failed to initialize map. Check console for details.');
+      setMapError(`Failed to initialize map: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return;
     }
 

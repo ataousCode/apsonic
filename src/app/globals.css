@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
+@import "mapbox-gl/dist/mapbox-gl.css";
 
 @layer base {
   /* Legacy CSS variable aliases for backward compatibility */

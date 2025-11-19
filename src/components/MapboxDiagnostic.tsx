@@ -10,19 +10,33 @@ export default function MapboxDiagnostic() {
   });
 
   useEffect(() => {
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
-    const tokenValid = token.startsWith('pk.') && token.length > 50;
-    
-    setDiagnostics({
-      token: token ? `${token.substring(0, 20)}...` : 'NOT SET',
-      tokenValid,
-      mapboxLoaded: typeof window !== 'undefined' && 'mapboxgl' in window,
-    });
+    const checkMapbox = async () => {
+      const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
+      const tokenValid = token.startsWith('pk.') && token.length > 50;
+      
+      // Try to import mapbox-gl to check if it's available
+      let mapboxLoaded = false;
+      try {
+        const mapboxgl = await import('mapbox-gl');
+        mapboxLoaded = !!mapboxgl.default || !!mapboxgl;
+      } catch (error) {
+        console.error('Failed to load mapbox-gl:', error);
+        mapboxLoaded = false;
+      }
+      
+      setDiagnostics({
+        token: token ? `${token.substring(0, 20)}...` : 'NOT SET',
+        tokenValid,
+        mapboxLoaded,
+      });
 
-    console.log('🔍 Mapbox Diagnostics:');
-    console.log('  Token:', token ? `${token.substring(0, 20)}...` : 'NOT SET');
-    console.log('  Token valid:', tokenValid);
-    console.log('  Mapbox loaded:', typeof window !== 'undefined' && 'mapboxgl' in window);
+      console.log('🔍 Mapbox Diagnostics:');
+      console.log('  Token:', token ? `${token.substring(0, 20)}...` : 'NOT SET');
+      console.log('  Token valid:', tokenValid);
+      console.log('  Mapbox loaded:', mapboxLoaded);
+    };
+    
+    checkMapbox();
   }, []);
 
   return (
