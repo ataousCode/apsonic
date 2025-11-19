@@ -1,48 +1,66 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
+@import "mapbox-gl/dist/mapbox-gl.css";
 
 @layer base {
+  /* Legacy CSS variable aliases for backward compatibility */
   :root {
-    --apsonic-green: #1ca049;
-    --apsonic-green-dark: #11833d;
-    --apsonic-ink: #050c08;
-    --apsonic-surface: #0c1711;
-    --apsonic-surface-alt: #151f19;
-    --apsonic-accent: #5fe1a1;
-    --apsonic-border: rgba(255, 255, 255, 0.08);
-    --apsonic-text: #f8fbf2;
-    --apsonic-muted: rgba(248, 251, 242, 0.72);
+    --apsonic-green: var(--color-primary);
+    --apsonic-green-dark: var(--color-primary-dark);
+    --apsonic-ink: var(--color-ink);
+    --apsonic-surface: var(--color-surface);
+    --apsonic-surface-alt: var(--color-surface-alt);
+    --apsonic-accent: var(--color-primary-light);
+    --apsonic-border: var(--color-border);
+    --apsonic-text: var(--color-text-primary);
+    --apsonic-muted: var(--color-text-secondary);
+  }
+  
+  html {
+    overflow-x: hidden;
+    width: 100%;
   }
 
   body {
-    background-color: var(--apsonic-ink);
-    color: var(--apsonic-text);
-    font-family: var(--font-geist-sans);
+    background-color: var(--color-ink);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
     min-height: 100vh;
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
   }
 
   ::selection {
-    background-color: var(--apsonic-green);
-    color: #050c08;
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+  
+  /* Accessibility: Skip to main content link */
+  .skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-2) var(--spacing-4);
+    text-decoration: none;
+    z-index: var(--z-tooltip);
+    border-radius: var(--radius-md);
+  }
+  
+  .skip-to-content:focus {
+    top: var(--spacing-2);
+    left: var(--spacing-2);
   }
 }
 
-@layer utilities {
-  .glass-panel {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-    border: 1px solid var(--apsonic-border);
-    box-shadow: 0 15px 55px rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(24px);
-  }
-
-  .hero-gradient {
-    background: radial-gradient(circle at 20% 20%, rgba(92, 225, 161, 0.3), transparent 35%),
-      radial-gradient(circle at 80% 0%, rgba(28, 160, 73, 0.35), transparent 40%),
-      linear-gradient(135deg, rgba(10, 18, 14, 0.95), rgba(5, 9, 7, 0.84));
-  }
-
-  .section-gradient {
-    background: radial-gradient(circle at top, rgba(28, 160, 73, 0.08), transparent 45%),
-      linear-gradient(180deg, rgba(6, 10, 8, 0.95), rgba(5, 7, 6, 0.9));
+/* Smooth scrolling with respect for reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }

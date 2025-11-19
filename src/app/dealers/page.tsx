@@ -10,15 +10,35 @@ import {
   dealerInsights,
   dealerPresenceCountries,
   type DealerCategory,
+  type DealerEntry,
 } from "@/data/dealers";
 import { cn } from "@/lib/utils";
 import DistributorCTA from "@/components/DistributorCTA";
+import DealerMap from "@/components/DealerMap";
+import DealerCard from "@/components/DealerCard";
+import MapboxDiagnostic from "@/components/MapboxDiagnostic";
 
 type FilterValue = DealerCategory | "all";
 
 export default function DealersPage() {
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterValue>("all");
+  const [selectedDealer, setSelectedDealer] = useState<DealerEntry | null>(null);
+
+  // Handle dealer selection from map
+  const handleDealerSelect = (dealer: DealerEntry) => {
+    setSelectedDealer(dealer);
+    // Scroll to the dealer card
+    const cardElement = document.getElementById(`dealer-${dealer.id}`);
+    if (cardElement) {
+      cardElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Briefly highlight the card
+      cardElement.classList.add('ring-2', 'ring-apsonic-green');
+      setTimeout(() => {
+        cardElement.classList.remove('ring-2', 'ring-apsonic-green');
+      }, 2000);
+    }
+  };
 
   const filteredDealers = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -79,9 +99,9 @@ export default function DealersPage() {
 
       <PageSection id="network" className="bg-[var(--apsonic-surface-alt)]">
         <SectionHeader
-          eyebrow="Network intelligence"
-          title="Search, filter, and connect with APSONIC partners"
-          description="Use corridor filters to find sales offices, service hubs, OEM academies, or spare depots that match your deployment."
+          eyebrow="Dealer Network"
+          title="Find Your Nearest APSONIC Partner"
+          description="Connect with authorized dealers across Africa for sales, service, and support."
         />
 
         <div className="mt-10 space-y-6">
@@ -90,15 +110,15 @@ export default function DealersPage() {
               type="text"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Accra, Abidjan, Lagos, Niamey..."
+              placeholder="Search by city, country, or dealer name..."
               className="h-12 flex-1 rounded-full border border-white/15 bg-black/20 px-5 text-white placeholder:text-white/40 focus:border-[var(--apsonic-green)] focus:outline-none"
             />
-            <Button
-              asChild
-              className="h-12 rounded-full border border-white/10 bg-[var(--apsonic-green)] px-6 text-black hover:bg-[var(--apsonic-green-dark)] hover:text-white"
-            >
-              <a href="/dealers/map">Open interactive map</a>
-            </Button>
+            <div className="flex items-center gap-2 text-sm text-white/60">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              {filteredDealers.length} dealer{filteredDealers.length !== 1 ? 's' : ''} found
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -114,84 +134,73 @@ export default function DealersPage() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="space-y-5">
+        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
+          {/* Dealer Cards */}
+          <div className="space-y-5 lg:order-2">
             {filteredDealers.length === 0 ? (
-              <div className="rounded-3xl border border-white/10 bg-black/20 p-6 text-center text-white/70">
-                No partner matches that search yet. Try another city, corridor, or filter.
+              <div className="rounded-3xl border border-white/10 bg-black/20 p-8 text-center">
+                <svg className="mx-auto mb-4 h-16 w-16 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <p className="text-lg font-semibold text-white/70">No dealers found</p>
+                <p className="mt-2 text-sm text-white/50">Try adjusting your search or filters</p>
+                <Button 
+                  onClick={() => {
+                    setQuery("");
+                    setActiveFilter("all");
+                  }}
+                  variant="outline"
+                  className="mt-4 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                >
+                  Reset Filters
+                </Button>
               </div>
             ) : (
               filteredDealers.map((dealer) => (
-                <article
-                  key={dealer.id}
-                  className="rounded-3xl border border-white/10 bg-black/20 p-6 text-sm text-white/80"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.4em] text-white/50">
-                        {dealer.country} • {dealer.city}
-                      </p>
-                      <h3 className="text-2xl font-semibold text-white">{dealer.name}</h3>
-                    </div>
-                    {dealer.badge ? (
-                      <span className="rounded-full border border-white/20 px-3 py-1 text-xs uppercase tracking-[0.3em] text-white/70">
-                        {dealer.badge}
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-2 text-white/65">{dealer.address}</p>
-                  <div className="mt-3 flex flex-wrap gap-3 text-xs text-white/60">
-                    {dealer.categories.map((category) => (
-                      <span key={category} className="rounded-full border border-white/10 px-3 py-1 uppercase tracking-[0.2em]">
-                        {category}
-                      </span>
-                    ))}
-                    <span className="rounded-full border border-white/10 px-3 py-1 uppercase tracking-[0.2em]">
-                      {dealer.languages.join(" / ")}
-                    </span>
-                  </div>
-                  <div className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.3em] text-white/50">Phone</p>
-                      <p>{dealer.contacts.phone}</p>
-                    </div>
-                    {dealer.contacts.whatsapp ? (
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-white/50">WhatsApp</p>
-                        <p>{dealer.contacts.whatsapp}</p>
-                      </div>
-                    ) : null}
-                    {dealer.contacts.email ? (
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-white/50">Email</p>
-                        <p>{dealer.contacts.email}</p>
-                      </div>
-                    ) : null}
-                  </div>
-                </article>
+                <DealerCard 
+                  key={dealer.id} 
+                  dealer={dealer}
+                  onViewDetails={handleDealerSelect}
+                />
               ))
             )}
           </div>
-          <aside className="space-y-5 rounded-[28px] border border-white/10 bg-black/25 p-6">
-            <div className="text-center">
-              <p className="text-xs uppercase tracking-[0.4em] text-white/50">Coverage map</p>
-              <p className="text-sm text-white/70">Overlay indicates active APSONIC markets.</p>
-            </div>
-            <div className="h-60 rounded-3xl border border-dashed border-white/10 bg-gradient-to-br from-black/40 to-black/10" />
-            <div className="grid gap-4 text-sm text-white/70">
-              {dealerInsights.map((insight) => (
-                <div key={insight.label} className="rounded-2xl border border-white/15 bg-black/30 p-4">
-                  <p className="text-xs uppercase tracking-[0.3em] text-white/50">{insight.label}</p>
-                  <p className="mt-2 text-3xl font-semibold text-white">{insight.value}</p>
-                  <p>{insight.detail}</p>
-                </div>
-              ))}
+
+          {/* Interactive Map */}
+          <aside className="space-y-5 lg:order-1 lg:sticky lg:top-24 lg:h-[calc(100vh-8rem)]">
+            <div className="rounded-[28px] border border-white/10 bg-black/25 p-6 h-full flex flex-col">
+              <div className="text-center mb-4">
+                <p className="text-xs uppercase tracking-[0.4em] text-white/50">Interactive Map</p>
+                <p className="text-sm text-white/70 mt-1">Click markers to view dealer details</p>
+              </div>
+              
+              <div className="flex-1 min-h-[400px] lg:min-h-0 relative">
+                <DealerMap 
+                  dealers={filteredDealers}
+                  activeFilter={activeFilter === 'all' ? 'all' : activeFilter}
+                  onDealerSelect={handleDealerSelect}
+                  className="w-full h-full"
+                />
+              </div>
+
+              <div className="mt-5 grid gap-4 text-sm text-white/70">
+                {dealerInsights.map((insight) => (
+                  <div key={insight.label} className="rounded-2xl border border-white/15 bg-black/30 p-4">
+                    <p className="text-xs uppercase tracking-[0.3em] text-white/50">{insight.label}</p>
+                    <p className="mt-2 text-3xl font-semibold text-white">{insight.value}</p>
+                    <p>{insight.detail}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </aside>
         </div>
       </PageSection>
 
       <DistributorCTA />
+      
+      {/* Temporary diagnostic panel */}
+      <MapboxDiagnostic />
     </main>
   );
 }
