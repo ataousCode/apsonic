@@ -192,4 +192,39 @@ export const featureCards = [
   },
 ];
 
+// Get to know APSONIC - Hero Carousel (Apple style)
+export const getToKnowApsonicSlides = [
+  {
+    id: "durability",
+    image: "/assets/images/home/img1.png",
+    imageAlt: "APSONIC ADV 250X motorcycle showing durability features",
+    title: "Built for African roads. Engineered to last.",
+    description:
+      "Every APSONIC motorcycle is designed to handle Africa's toughest terrains. From corrugated roads to desert heat, our reinforced frames and corrosion-resistant components ensure reliability where it matters most.",
+  },
+  {
+    id: "power",
+    image: "/assets/images/home/img2.jpeg",
+    imageAlt: "APSONIC motorcycle engine and performance",
+    title: "250cc power. Maximum efficiency.",
+    description:
+      "Advanced EFI engines calibrated for African fuel standards deliver consistent power and superior fuel economy. Perfect for long-distance deliveries and commercial operations.",
+  },
+  {
+    id: "cargo",
+    image: "/assets/images/home/img3.png",
+    imageAlt: "APSONIC cargo motorcycle with heavy load capacity",
+    title: "Heavy-duty cargo. Built for business.",
+    description:
+      "Reinforced cargo racks handle up to 200kg of payload while maintaining stability and control. Designed for entrepreneurs who need reliable transportation for their goods.",
+  },
+  {
+    id: "network",
+    image: "/assets/images/home/img4.png",
+    imageAlt: "APSONIC service network across Africa",
+    title: "1,200+ service centers. Always supported.",
+    description:
+      "With certified workshops across 26 African countries, expert support is never far away. Genuine parts, trained technicians, and multilingual assistance keep you on the road.",
+  },
+];
 

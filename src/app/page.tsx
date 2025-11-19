@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import Interactive360Viewer from "@/components/Interactive360Viewer";
+import GetToKnowApsonic from "@/components/GetToKnowApsonic";
 import FeatureShowcase from "@/components/FeatureShowcase";
 import FeatureCards from "@/components/FeatureCards";
 import ModelsCarousel from "@/components/ModelsCarousel";
@@ -16,7 +17,8 @@ import {
   viewerFrames, 
   latest360Bike,
   featureShowcase,
-  featureCards 
+  featureCards,
+  getToKnowApsonicSlides
 } from "@/data/home";
 
 export default function Home() {
@@ -32,6 +34,7 @@ export default function Home() {
           specs={latest360Bike.specs}
         />
       </PageSection>
+      <GetToKnowApsonic slides={getToKnowApsonicSlides} />
       <FeatureCards title="Get to know APSONIC." cards={featureCards} />
       <FeatureShowcase features={featureShowcase} />
       <PageSection id="products" className="section-gradient">
