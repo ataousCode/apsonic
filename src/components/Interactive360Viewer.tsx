@@ -24,10 +24,12 @@ export default function Interactive360Viewer({
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [rotationOffset, setRotationOffset] = useState(0);
+  const [isAutoRotating, setIsAutoRotating] = useState(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // GSAP entrance animations
   useEffect(() => {
@@ -92,8 +94,43 @@ export default function Interactive360Viewer({
     return () => ctx.revert();
   }, []);
 
+  // Auto-rotation effect - change image every 3 seconds
+  useEffect(() => {
+    if (!isAutoRotating) return;
+
+    const startAutoRotation = () => {
+      autoRotateTimerRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+      }, 3000); // 3 seconds
+    };
+
+    startAutoRotation();
+
+    return () => {
+      if (autoRotateTimerRef.current) {
+        clearInterval(autoRotateTimerRef.current);
+      }
+    };
+  }, [isAutoRotating, images.length]);
+
+  // Pause auto-rotation when user interacts
+  const pauseAutoRotation = () => {
+    setIsAutoRotating(false);
+    if (autoRotateTimerRef.current) {
+      clearInterval(autoRotateTimerRef.current);
+    }
+  };
+
+  // Resume auto-rotation after user stops interacting
+  const resumeAutoRotation = () => {
+    setTimeout(() => {
+      setIsAutoRotating(true);
+    }, 5000); // Resume after 5 seconds of inactivity
+  };
+
   // Handle mouse/touch drag for rotation
   const handleDragStart = (clientX: number) => {
+    pauseAutoRotation();
     setIsDragging(true);
     setStartX(clientX);
   };
@@ -120,6 +157,7 @@ export default function Interactive360Viewer({
 
   const handleDragEnd = () => {
     setIsDragging(false);
+    resumeAutoRotation();
   };
 
   // Mouse events
@@ -252,7 +290,11 @@ export default function Interactive360Viewer({
               {images.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentIndex(index)}
+                  onClick={() => {
+                    pauseAutoRotation();
+                    setCurrentIndex(index);
+                    resumeAutoRotation();
+                  }}
                   className={cn(
                     "h-2 w-2 rounded-full transition-all duration-300",
                     index === currentIndex
@@ -299,19 +341,39 @@ export default function Interactive360Viewer({
               </div>
             </div>
 
-            {/* 360° Badge */}
+            {/* Controls: 360° Badge, View Counter, Play/Pause */}
             <div className="absolute top-6 right-6 flex flex-col gap-2">
               <div className="rounded-full border border-white/20 bg-black/40 px-3 py-1 backdrop-blur-sm">
                 <span className="text-xs font-semibold uppercase tracking-wider text-white">
                   360°
                 </span>
               </div>
+              
               {/* Debug: Current View */}
               <div className="rounded-full border border-white/20 bg-black/60 px-3 py-1 backdrop-blur-sm">
                 <span className="text-xs font-semibold text-white">
                   View {currentIndex + 1}/{images.length}
                 </span>
               </div>
+
+              {/* Play/Pause Button */}
+              <button
+                onClick={() => setIsAutoRotating(!isAutoRotating)}
+                className="flex items-center justify-center rounded-full border border-white/20 bg-black/40 p-2 backdrop-blur-sm transition-all hover:bg-black/60"
+                aria-label={isAutoRotating ? "Pause auto-rotation" : "Play auto-rotation"}
+              >
+                {isAutoRotating ? (
+                  // Pause icon
+                  <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                  </svg>
+                ) : (
+                  // Play icon
+                  <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                )}
+              </button>
             </div>
           </div>
 
