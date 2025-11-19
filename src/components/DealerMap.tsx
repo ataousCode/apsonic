@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { type DealerEntry, type DealerCategory } from '@/data/dealers';
+import { type DealerEntry, type DealerCategory, type AfricanRegion } from '@/data/dealers';
 import { cn } from '@/lib/utils';
 
 type DealerMapProps = {
@@ -178,11 +178,14 @@ export default function DealerMap({
         closeButton: false,
         closeOnClick: false,
         className: 'dealer-map-popup',
-      }).setHTML(`
-        <div class="p-3 min-w-[200px]">
+      }      ).setHTML(`
+        <div class="p-3 min-w-[220px]">
           <div class="flex items-start justify-between gap-2 mb-2">
-            <h3 class="font-semibold text-white text-sm">${dealer.name}</h3>
-            ${dealer.badge ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-apsonic-green text-black font-semibold uppercase tracking-wider">${dealer.badge}</span>` : ''}
+            <div>
+              <h3 class="font-semibold text-white text-sm">${dealer.name}</h3>
+              <p class="text-[10px] text-white/50 uppercase tracking-wider mt-1">${dealer.region}</p>
+            </div>
+            ${dealer.badge ? `<span class="text-[10px] px-2 py-0.5 rounded-full bg-apsonic-green text-black font-semibold uppercase tracking-wider whitespace-nowrap">${dealer.badge}</span>` : ''}
           </div>
           <p class="text-xs text-white/70 mb-2">${dealer.city}, ${dealer.country}</p>
           ${dealer.rating ? `

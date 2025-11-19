@@ -25,6 +25,21 @@ export default function DealersPage() {
   const [activeFilter, setActiveFilter] = useState<FilterValue>("all");
   const [selectedDealer, setSelectedDealer] = useState<DealerEntry | null>(null);
 
+  // Handle dealer selection from map
+  const handleDealerSelect = (dealer: DealerEntry) => {
+    setSelectedDealer(dealer);
+    // Scroll to the dealer card
+    const cardElement = document.getElementById(`dealer-${dealer.id}`);
+    if (cardElement) {
+      cardElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Briefly highlight the card
+      cardElement.classList.add('ring-2', 'ring-apsonic-green');
+      setTimeout(() => {
+        cardElement.classList.remove('ring-2', 'ring-apsonic-green');
+      }, 2000);
+    }
+  };
+
   const filteredDealers = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return dealerEntries.filter((dealer) => {
@@ -84,9 +99,9 @@ export default function DealersPage() {
 
       <PageSection id="network" className="bg-[var(--apsonic-surface-alt)]">
         <SectionHeader
-          eyebrow="Network intelligence"
-          title="Search, filter, and connect with APSONIC partners"
-          description="Use corridor filters to find sales offices, service hubs, OEM academies, or spare depots that match your deployment."
+          eyebrow="Dealer Network"
+          title="Find Your Nearest APSONIC Partner"
+          description="Connect with authorized dealers across Africa for sales, service, and support."
         />
 
         <div className="mt-10 space-y-6">
@@ -145,7 +160,7 @@ export default function DealersPage() {
                 <DealerCard 
                   key={dealer.id} 
                   dealer={dealer}
-                  onViewDetails={setSelectedDealer}
+                  onViewDetails={handleDealerSelect}
                 />
               ))
             )}
@@ -163,7 +178,7 @@ export default function DealersPage() {
                 <DealerMap 
                   dealers={filteredDealers}
                   activeFilter={activeFilter === 'all' ? 'all' : activeFilter}
-                  onDealerSelect={setSelectedDealer}
+                  onDealerSelect={handleDealerSelect}
                   className="w-full h-full"
                 />
               </div>

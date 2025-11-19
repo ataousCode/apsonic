@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { type DealerEntry } from '@/data/dealers';
 import CloudImage from './CloudImage';
 import { Button } from './ui/Button';
@@ -12,6 +13,8 @@ type DealerCardProps = {
 };
 
 export default function DealerCard({ dealer, onViewDetails, className }: DealerCardProps) {
+  const cardRef = React.useRef<HTMLElement>(null);
+
   const handleCall = () => {
     window.open(`tel:${dealer.contacts.phone}`, '_self');
   };
@@ -32,8 +35,10 @@ export default function DealerCard({ dealer, onViewDetails, className }: DealerC
 
   return (
     <article
+      ref={cardRef}
+      id={`dealer-${dealer.id}`}
       className={cn(
-        'group relative overflow-hidden rounded-3xl border border-white/10 bg-black/20 transition-all duration-300 hover:border-apsonic-green/50 hover:shadow-lg hover:shadow-apsonic-green/10',
+        'group relative overflow-hidden rounded-3xl border border-white/10 bg-black/20 transition-all duration-300 hover:border-apsonic-green/50 hover:shadow-lg hover:shadow-apsonic-green/10 scroll-mt-24',
         className
       )}
     >
@@ -75,10 +80,13 @@ export default function DealerCard({ dealer, onViewDetails, className }: DealerC
       <div className="p-6 text-sm text-white/80">
         {/* Header */}
         <div className="mb-4">
-          <p className="text-xs uppercase tracking-[0.4em] text-white/50">
+          <p className="text-xs uppercase tracking-[0.4em] text-white/40">
+            {dealer.region}
+          </p>
+          <p className="mt-1 text-xs uppercase tracking-[0.3em] text-white/60">
             {dealer.country} • {dealer.city}
           </p>
-          <h3 className="mt-1 text-2xl font-semibold text-white transition-colors group-hover:text-apsonic-green">
+          <h3 className="mt-2 text-2xl font-semibold text-white transition-colors group-hover:text-apsonic-green">
             {dealer.name}
           </h3>
           {!dealer.photos?.storefront && dealer.badge && (
