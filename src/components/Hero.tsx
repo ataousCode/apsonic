@@ -1,0 +1,117 @@
+'use client';
+
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import CloudImage from "./CloudImage";
+import { Button } from "@/components/ui/Button";
+import { heroImages, heroStats } from "@/data/home";
+
+export default function Hero() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".hero-heading",
+        { y: 32, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
+      );
+      gsap.fromTo(
+        ".hero-body",
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 0.92, delay: 0.3, duration: 0.8 }
+      );
+      gsap.fromTo(
+        ".hero-cta",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, delay: 0.6, duration: 0.8 }
+      );
+      gsap.fromTo(
+        ".hero-stat",
+        { opacity: 0, y: 12 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.08,
+          delay: 0.8,
+          ease: "power2.out",
+        }
+      );
+    }, containerRef);
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 5000);
+
+    return () => {
+      ctx.revert();
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <section
+      ref={containerRef}
+      className="hero-gradient relative flex min-h-hero lg:min-h-hero-lg flex-col justify-end overflow-hidden"
+    >
+      <div className="absolute inset-0">
+        {heroImages.map((src, index) => (
+          <CloudImage
+            key={src}
+            src={src}
+            alt={`APSONIC Hero Image ${index + 1}`}
+            width={1920}
+            height={1080}
+            className={`absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-[2500ms] ease-out ${
+              index === currentImageIndex ? "opacity-80" : ""
+            }`}
+            priority={index === 0}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/70 to-black/80" />
+      </div>
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 pb-32 pt-48 sm:px-10 lg:pb-40">
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.5em] text-emerald-200 hero-body">
+            Good Quality • Good Life
+          </p>
+          <h1 className="hero-heading mt-6 text-5xl font-bold leading-tight text-white sm:text-6xl lg:text-7xl">
+            Durable mobility ecosystems for the African backbone.
+          </h1>
+          <p className="hero-body mt-8 text-xl text-white/90 leading-relaxed">
+            APSONIC partners with governments, cooperatives, and distributors to deploy resilient
+            motorcycles, predictive service, and financing infrastructure across 26 African markets.
+          </p>
+        </div>
+        <div className="hero-cta flex flex-col gap-5 sm:flex-row">
+          <Button
+            asChild
+            size="lg"
+            className="rounded-full bg-apsonic-green px-10 text-base font-semibold text-black hover:bg-apsonic-green-dark hover:text-white transition-all duration-300"
+          >
+            <a href="#products">Explore Vehicle Line-up</a>
+          </Button>
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="rounded-full border-white/40 bg-white/5 px-10 text-base font-semibold text-white hover:bg-white/10 hover:border-white/60 transition-all duration-300"
+          >
+            <a href="#viewer">360° experience</a>
+          </Button>
+        </div>
+        <div className="glass-panel grid grid-cols-2 gap-4 rounded-3xl p-6 text-white/80 sm:grid-cols-4">
+          {heroStats.map((stat) => (
+            <div key={stat.label} className="hero-stat space-y-2 border-white/5 text-left sm:border-l sm:pl-6 first:border-l-0 first:pl-0">
+              <p className="text-2xl font-semibold text-white">{stat.value}</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/60">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

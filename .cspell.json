@@ -1,0 +1,43 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "AFCON",
+    "Apapa",
+    "APSONIC",
+    "Béro",
+    "Boigny",
+    "Burkina",
+    "Bushrod",
+    "Côte",
+    "dechengholdings",
+    "Faso",
+    "Félix",
+    "Ganhi",
+    "gsap",
+    "Houphouët",
+    "Ikeja",
+    "Industrielle",
+    "Ivoire",
+    "ivorycoast",
+    "Janvier",
+    "Kossodo",
+    "Koulikoro",
+    "Lomé",
+    "Opeibea",
+    "Ouaga",
+    "ouaga",
+    "Portuaire",
+    "powertrains",
+    "Quartier",
+    "Secteur",
+    "sierraleone",
+    "Sotuba",
+    "Telematics",
+    "toolkits",
+    "Yopougon"
+  ],
+  "ignorePaths": [
+    "eslint.config.mjs"
+  ]
+}
