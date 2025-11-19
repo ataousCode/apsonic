@@ -47,19 +47,22 @@ function FeatureCardItem({
 
   return (
     <ScrollReveal direction="up" delay={index * 0.1}>
-      <div className="group relative overflow-hidden rounded-[2.5rem] bg-white">
+      <div className="group relative overflow-hidden rounded-[2.5rem] glass-panel">
         {/* Card Content */}
         <div className="relative flex min-h-[650px] flex-col lg:min-h-[700px]">
+          {/* Decorative Glow */}
+          <div className="absolute -top-24 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-apsonic-green/20 blur-3xl" />
+
           {/* Text Content - Top */}
           <div className="relative z-10 p-10 lg:p-12">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-600">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-apsonic-accent">
               {card.category}
             </p>
-            <h3 className="mt-3 max-w-xs text-3xl font-bold leading-tight text-black lg:text-4xl">
+            <h3 className="mt-3 max-w-xs text-3xl font-bold leading-tight text-white lg:text-4xl">
               {card.title}
             </h3>
             {card.subtitle && (
-              <p className="mt-1 text-3xl font-bold leading-tight text-black lg:text-4xl">
+              <p className="mt-1 text-3xl font-bold leading-tight text-white lg:text-4xl">
                 {card.subtitle}
               </p>
             )}
@@ -85,7 +88,7 @@ function FeatureCardItem({
                   alt={`${card.imageAlt} - View ${imgIndex + 1}`}
                   width={800}
                   height={800}
-                  className="h-auto w-full max-w-md object-contain lg:max-w-lg"
+                  className="h-auto w-full max-w-md object-contain drop-shadow-2xl lg:max-w-lg"
                   priority={imgIndex === 0 && index === 0}
                 />
               </div>
@@ -102,15 +105,15 @@ function FeatureCardItem({
                   className={cn(
                     "h-2 rounded-full transition-all duration-300",
                     imgIndex === currentImageIndex
-                      ? "w-8 bg-gray-800"
-                      : "w-2 bg-gray-300 hover:bg-gray-400"
+                      ? "w-8 bg-apsonic-green"
+                      : "w-2 bg-white/30 hover:bg-white/50"
                   )}
                   aria-label={`View image ${imgIndex + 1}`}
                 />
               ))}
               {/* Play button */}
               <button
-                className="ml-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-800 text-white transition-all hover:bg-black"
+                className="ml-2 flex h-6 w-6 items-center justify-center rounded-full bg-apsonic-green text-white transition-all hover:bg-apsonic-green-dark"
                 aria-label="Play"
               >
                 <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
@@ -127,11 +130,11 @@ function FeatureCardItem({
 
 export default function FeatureCards({ title, cards }: FeatureCardsProps) {
   return (
-    <div className="bg-white py-20 lg:py-32">
+    <div className="section-gradient py-20 lg:py-32">
       <div className="mx-auto max-w-[1400px] space-y-12 px-6">
         {/* Section Title */}
         <ScrollReveal direction="up">
-          <h2 className="text-4xl font-bold text-black sm:text-5xl lg:text-6xl">
+          <h2 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
             {title}
           </h2>
         </ScrollReveal>
