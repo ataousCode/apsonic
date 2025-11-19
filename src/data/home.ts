@@ -96,4 +96,96 @@ export const dealerInsights = [
   { label: "Average service radius", value: "< 60 km", detail: "Maintains uptime" },
 ];
 
+// Feature Showcase - Deep dive into APSONIC quality
+export const featureShowcase = [
+  {
+    id: "durability",
+    category: "Built for Africa",
+    title: "Engineered for every terrain.",
+    description:
+      "From the red dust of Sahel to monsoon-soaked Lagos streets, APSONIC motorcycles are designed to thrive where others fail. Reinforced frames, corrosion-resistant components, and superior suspension systems ensure your bike performs reliably across Africa's most demanding environments.",
+    image: "/assets/images/home/img1.png",
+    imageAlt: "APSONIC motorcycle on African terrain",
+    darkBg: false,
+  },
+  {
+    id: "affordability",
+    category: "Good Quality • Good Life",
+    title: "Premium quality. Accessible pricing.",
+    description:
+      "We believe quality mobility shouldn't be a luxury. APSONIC delivers professional-grade motorcycles at prices that empower African entrepreneurs, delivery riders, and families. Our fuel-efficient engines reduce daily costs, while durable construction minimizes maintenance expenses.",
+    image: "/assets/images/home/img2.jpeg",
+    imageAlt: "APSONIC affordable motorcycle",
+    darkBg: true,
+  },
+  {
+    id: "service",
+    category: "Pan-African Network",
+    title: "Never far from expert support.",
+    description:
+      "With over 1,200 certified service centers across 26 African countries, APSONIC ensures you're never alone on the road. Our technicians receive factory training, genuine spare parts are always in stock, and multilingual support teams understand your local needs.",
+    image: "/assets/images/home/img3.png",
+    imageAlt: "APSONIC service network",
+    darkBg: false,
+  },
+  {
+    id: "innovation",
+    category: "Future-Ready",
+    title: "Technology that works for Africa.",
+    description:
+      "APSONIC integrates smart technology designed for real African conditions. Telematics-ready systems for fleet management, fuel-efficient EFI engines adapted for local fuel quality, and modular designs that simplify repairs in remote areas. Innovation that serves your daily reality.",
+    image: "/assets/images/home/img4.png",
+    imageAlt: "APSONIC technology",
+    darkBg: true,
+  },
+];
+
+// Feature Cards - "Get to know APSONIC" style
+export const featureCards = [
+  {
+    id: "design",
+    category: "Innovation",
+    title: "Beautiful and durable, by design.",
+    description:
+      "Every APSONIC motorcycle combines African-inspired aesthetics with world-class engineering.",
+    image: "/assets/images/home/img1.png",
+    imageAlt: "APSONIC design",
+    expandedContent:
+      "Our design philosophy honors African craftsmanship while leveraging modern manufacturing. Vibrant colors reflect our continent's energy, while reinforced construction ensures longevity on challenging roads.",
+  },
+  {
+    id: "power",
+    category: "Performance",
+    title: "Power that moves Africa forward.",
+    description:
+      "From 125cc urban efficiency to 250cc adventure capability, we have the right engine for every journey.",
+    image: "/assets/images/home/img2.jpeg",
+    imageAlt: "APSONIC engine power",
+    expandedContent:
+      "Our engines are calibrated for African fuel standards and climate conditions. Advanced cooling systems prevent overheating in Sahel heat, while robust air filters handle dust that would clog lesser bikes.",
+  },
+  {
+    id: "cargo",
+    category: "Versatility",
+    title: "Built to carry your business.",
+    description:
+      "Reinforced cargo racks and payload capacity designed for African entrepreneurs.",
+    image: "/assets/images/home/img3.png",
+    imageAlt: "APSONIC cargo capacity",
+    expandedContent:
+      "Whether transporting goods to market, delivering packages across cities, or carrying farming supplies to rural communities, APSONIC cargo bikes are engineered to handle heavy loads while maintaining stability and fuel efficiency.",
+  },
+  {
+    id: "community",
+    category: "APSONIC in Africa",
+    title: "More than machines. A community.",
+    description:
+      "Join 500,000+ riders across Africa who trust APSONIC for their daily mobility.",
+    image: "/assets/images/home/img4.png",
+    imageAlt: "APSONIC community",
+    expandedContent:
+      "APSONIC riders are taxi drivers in Accra, delivery heroes in Lagos, farmers in rural Mali, and entrepreneurs everywhere. We support rider cooperatives, offer flexible financing through local partners, and celebrate the vital role motorcycles play in African development.",
+  },
+];
+
 

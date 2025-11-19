@@ -1,5 +1,7 @@
 import Hero from "@/components/Hero";
 import Interactive360Viewer from "@/components/Interactive360Viewer";
+import FeatureShowcase from "@/components/FeatureShowcase";
+import FeatureCards from "@/components/FeatureCards";
 import ModelsCarousel from "@/components/ModelsCarousel";
 import BikeViewer from "@/components/BikeViewer";
 import ServiceAdvantages from "@/components/ServiceAdvantages";
@@ -9,7 +11,13 @@ import ImpactHighlights from "@/components/ImpactHighlights";
 import AFCONSponsorship from "@/components/AFCONSponsorship";
 import { PageSection } from "@/components/ui/PageSection";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { modelsCarouselItems, viewerFrames, latest360Bike } from "@/data/home";
+import { 
+  modelsCarouselItems, 
+  viewerFrames, 
+  latest360Bike,
+  featureShowcase,
+  featureCards 
+} from "@/data/home";
 
 export default function Home() {
   return (
@@ -24,6 +32,8 @@ export default function Home() {
           specs={latest360Bike.specs}
         />
       </PageSection>
+      <FeatureCards title="Get to know APSONIC." cards={featureCards} />
+      <FeatureShowcase features={featureShowcase} />
       <PageSection id="products" className="section-gradient">
         <SectionHeader
           eyebrow="Platforms"
