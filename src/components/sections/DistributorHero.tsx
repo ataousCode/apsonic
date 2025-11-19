@@ -45,7 +45,7 @@ export default function DistributorHero() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <CloudImage
-          src="/assets/images/dealers/warehouse-hero.jpg"
+          src="/assets/images/home/img2.jpeg"
           alt="APSONIC Distribution Center"
           width={1920}
           height={1080}
