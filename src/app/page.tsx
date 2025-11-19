@@ -34,8 +34,8 @@ export default function Home() {
           specs={latest360Bike.specs}
         />
       </PageSection>
-      <GetToKnowApsonic slides={getToKnowApsonicSlides} />
-      <FeatureCards title="Get to know APSONIC." cards={featureCards} />
+      <GetToKnowApsonic title="Discover APSONIC." slides={getToKnowApsonicSlides} />
+      <FeatureCards title="Experience APSONIC." cards={featureCards} />
       <FeatureShowcase features={featureShowcase} />
       <PageSection id="products" className="section-gradient">
         <SectionHeader

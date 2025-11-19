@@ -235,15 +235,6 @@ export default function Interactive360Viewer({
             </div>
           )}
 
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4">
-            <button className="rounded-full bg-apsonic-green px-8 py-3 text-sm font-semibold text-black transition-all duration-300 hover:bg-apsonic-green-dark hover:text-white">
-              View Full Specs
-            </button>
-            <button className="rounded-full border border-white/40 bg-white/5 px-8 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10">
-              Contact Dealer
-            </button>
-          </div>
         </div>
 
         {/* 360° Viewer Side */}
@@ -306,75 +297,6 @@ export default function Interactive360Viewer({
               ))}
             </div>
 
-            {/* Drag Instruction */}
-            <div className="viewer-instruction pointer-events-none absolute top-6 left-1/2 -translate-x-1/2">
-              <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-4 py-2 backdrop-blur-sm">
-                <svg
-                  className="h-4 w-4 text-white/70"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 16l-4-4m0 0l4-4m-4 4h18"
-                  />
-                </svg>
-                <span className="text-xs font-medium uppercase tracking-wider text-white/70">
-                  Drag to Rotate
-                </span>
-                <svg
-                  className="h-4 w-4 text-white/70"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            {/* Controls: 360° Badge, View Counter, Play/Pause */}
-            <div className="absolute top-6 right-6 flex flex-col gap-2">
-              <div className="rounded-full border border-white/20 bg-black/40 px-3 py-1 backdrop-blur-sm">
-                <span className="text-xs font-semibold uppercase tracking-wider text-white">
-                  360°
-                </span>
-              </div>
-              
-              {/* Debug: Current View */}
-              <div className="rounded-full border border-white/20 bg-black/60 px-3 py-1 backdrop-blur-sm">
-                <span className="text-xs font-semibold text-white">
-                  View {currentIndex + 1}/{images.length}
-                </span>
-              </div>
-
-              {/* Play/Pause Button */}
-              <button
-                onClick={() => setIsAutoRotating(!isAutoRotating)}
-                className="flex items-center justify-center rounded-full border border-white/20 bg-black/40 p-2 backdrop-blur-sm transition-all hover:bg-black/60"
-                aria-label={isAutoRotating ? "Pause auto-rotation" : "Play auto-rotation"}
-              >
-                {isAutoRotating ? (
-                  // Pause icon
-                  <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-                  </svg>
-                ) : (
-                  // Play icon
-                  <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                )}
-              </button>
-            </div>
           </div>
 
           {/* Decorative Elements */}

@@ -68,83 +68,76 @@ export default function GetToKnowApsonic({
 
   return (
     <section
-      className="relative w-full bg-white py-16 lg:py-24"
+      className="relative w-full section-gradient py-16 lg:py-24"
       role="region"
-      aria-label="Get to know APSONIC"
+      aria-label="Discover APSONIC Hero Carousel"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="mx-auto max-w-[1400px] px-6">
         {/* Title */}
-        <h2 className="mb-12 text-4xl font-bold text-[#111111] sm:text-5xl lg:mb-16 lg:text-6xl">
+        <h2 className="mb-12 text-4xl font-bold text-white sm:text-5xl lg:mb-16 lg:text-6xl">
           {title}
         </h2>
 
-        {/* Carousel Card */}
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#f5f5f7] shadow-2xl">
-          <div className="grid gap-8 p-8 lg:grid-cols-2 lg:gap-12 lg:p-16">
-            {/* Left: Product Image */}
-            <div className="relative flex items-center justify-center">
-              <div className="relative h-[400px] w-full lg:h-[600px]">
-                {slides.map((slide, index) => (
-                  <div
-                    key={slide.id}
-                    className={cn(
-                      'absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out',
-                      index === currentIndex
-                        ? 'opacity-100 scale-100 z-10'
-                        : 'opacity-0 scale-95 z-0'
-                    )}
-                    style={{
-                      visibility: index === currentIndex ? 'visible' : 'hidden',
-                    }}
-                  >
-                    <CloudImage
-                      src={slide.image}
-                      alt={slide.imageAlt}
-                      width={800}
-                      height={800}
-                      className="h-full w-full object-contain"
-                      priority={index === 0}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Small iPhone-style device shown on right (desktop only) */}
-              <div className="absolute -right-8 top-1/2 hidden -translate-y-1/2 lg:block">
-                <div className="h-32 w-24 rounded-3xl bg-white shadow-xl ring-1 ring-black/5" />
-              </div>
+        {/* Carousel Content - No container, seamless integration */}
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Left: Product Image */}
+          <div className="relative flex items-center justify-center">
+            <div className="relative h-[400px] w-full lg:h-[600px]">
+              {slides.map((slide, index) => (
+                <div
+                  key={slide.id}
+                  className={cn(
+                    'absolute inset-0 flex items-center justify-center transition-all duration-700 ease-in-out',
+                    index === currentIndex
+                      ? 'opacity-100 scale-100 z-10'
+                      : 'opacity-0 scale-95 z-0'
+                  )}
+                  style={{
+                    visibility: index === currentIndex ? 'visible' : 'hidden',
+                  }}
+                >
+                  <CloudImage
+                    src={slide.image}
+                    alt={slide.imageAlt}
+                    width={800}
+                    height={800}
+                    className="h-full w-full object-contain drop-shadow-2xl"
+                    priority={index === 0}
+                  />
+                </div>
+              ))}
             </div>
+          </div>
 
-            {/* Right: Text Content */}
-            <div className="flex flex-col justify-center">
-              <div className="space-y-4">
-                {slides.map((slide, index) => (
-                  <div
-                    key={`text-${slide.id}`}
-                    className={cn(
-                      'transition-all duration-700 ease-in-out',
-                      index === currentIndex
-                        ? 'relative opacity-100 translate-x-0'
-                        : 'absolute opacity-0 translate-x-8 pointer-events-none'
-                    )}
-                  >
-                    <h3 className="text-3xl font-bold leading-tight text-[#111111] sm:text-4xl lg:text-5xl">
-                      {slide.title}
-                    </h3>
-                    <p className="mt-4 text-lg leading-relaxed text-[#6e6e73] lg:text-xl">
-                      {slide.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
+          {/* Right: Text Content */}
+          <div className="flex flex-col justify-center">
+            <div className="space-y-4">
+              {slides.map((slide, index) => (
+                <div
+                  key={`text-${slide.id}`}
+                  className={cn(
+                    'transition-all duration-700 ease-in-out',
+                    index === currentIndex
+                      ? 'relative opacity-100 translate-x-0'
+                      : 'absolute opacity-0 translate-x-8 pointer-events-none'
+                  )}
+                >
+                  <h3 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                    {slide.title}
+                  </h3>
+                  <p className="mt-4 text-lg leading-relaxed text-apsonic-muted lg:text-xl">
+                    {slide.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Navigation Dots & Controls */}
-        <div className="mt-8 flex items-center justify-center gap-2">
+        <div className="mt-12 flex items-center justify-center gap-2">
           {slides.map((slide, index) => (
             <button
               key={`dot-${slide.id}`}
@@ -152,8 +145,8 @@ export default function GetToKnowApsonic({
               className={cn(
                 'h-2 rounded-full transition-all duration-300',
                 index === currentIndex
-                  ? 'w-8 bg-[#111111]'
-                  : 'w-2 bg-[#d1d1d6] hover:bg-[#86868b]'
+                  ? 'w-8 bg-apsonic-green'
+                  : 'w-2 bg-white/30 hover:bg-white/50'
               )}
               aria-label={`Go to slide ${index + 1}: ${slide.title}`}
               aria-current={index === currentIndex}
@@ -163,7 +156,7 @@ export default function GetToKnowApsonic({
           {/* Play/Pause button */}
           <button
             onClick={() => setIsPaused(!isPaused)}
-            className="ml-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#111111] text-white transition-all hover:bg-[#424245]"
+            className="ml-2 flex h-6 w-6 items-center justify-center rounded-full bg-apsonic-green text-white transition-all hover:bg-apsonic-green-dark"
             aria-label={isPaused ? 'Play carousel' : 'Pause carousel'}
           >
             {isPaused ? (
