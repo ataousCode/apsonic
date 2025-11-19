@@ -102,11 +102,16 @@ export default function Interactive360Viewer({
     if (!isDragging) return;
 
     const delta = clientX - startX;
-    const sensitivity = 0.5;
-    const rotation = Math.floor(delta * sensitivity);
+    const sensitivity = 0.3;
+    const rotation = delta * sensitivity;
     
-    if (Math.abs(rotation) > 10) {
-      const newIndex = (currentIndex - Math.sign(rotation) + images.length) % images.length;
+    // Lower threshold for more responsive rotation
+    if (Math.abs(delta) > 30) {
+      const direction = delta > 0 ? -1 : 1;
+      const newIndex = (currentIndex + direction + images.length) % images.length;
+      
+      console.log('Rotating:', { currentIndex, newIndex, delta });
+      
       setCurrentIndex(newIndex);
       setStartX(clientX);
       setRotationOffset(rotationOffset + rotation);
@@ -222,11 +227,14 @@ export default function Interactive360Viewer({
             {/* Images - only show current one */}
             {images.map((src, index) => (
               <div
-                key={src}
+                key={`view-${index}`}
                 className={cn(
-                  "absolute inset-0 transition-opacity duration-300",
-                  index === currentIndex ? "opacity-100" : "opacity-0"
+                  "absolute inset-0 transition-opacity duration-500 pointer-events-none",
+                  index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
                 )}
+                style={{
+                  visibility: index === currentIndex ? 'visible' : 'hidden',
+                }}
               >
                 <CloudImage
                   src={src}
@@ -234,6 +242,7 @@ export default function Interactive360Viewer({
                   width={800}
                   height={800}
                   className="h-full w-full object-contain p-8"
+                  priority={index === 0}
                 />
               </div>
             ))}
@@ -291,10 +300,18 @@ export default function Interactive360Viewer({
             </div>
 
             {/* 360° Badge */}
-            <div className="absolute top-6 right-6 rounded-full border border-white/20 bg-black/40 px-3 py-1 backdrop-blur-sm">
-              <span className="text-xs font-semibold uppercase tracking-wider text-white">
-                360°
-              </span>
+            <div className="absolute top-6 right-6 flex flex-col gap-2">
+              <div className="rounded-full border border-white/20 bg-black/40 px-3 py-1 backdrop-blur-sm">
+                <span className="text-xs font-semibold uppercase tracking-wider text-white">
+                  360°
+                </span>
+              </div>
+              {/* Debug: Current View */}
+              <div className="rounded-full border border-white/20 bg-black/60 px-3 py-1 backdrop-blur-sm">
+                <span className="text-xs font-semibold text-white">
+                  View {currentIndex + 1}/{images.length}
+                </span>
+              </div>
             </div>
           </div>
 
