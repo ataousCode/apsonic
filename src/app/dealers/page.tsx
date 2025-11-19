@@ -159,11 +159,12 @@ export default function DealersPage() {
                 <p className="text-sm text-white/70 mt-1">Click markers to view dealer details</p>
               </div>
               
-              <div className="flex-1 min-h-[400px] lg:min-h-0">
+              <div className="flex-1 min-h-[400px] lg:min-h-0 relative">
                 <DealerMap 
                   dealers={filteredDealers}
                   activeFilter={activeFilter === 'all' ? 'all' : activeFilter}
                   onDealerSelect={setSelectedDealer}
+                  className="w-full h-full"
                 />
               </div>
 

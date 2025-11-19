@@ -99,12 +99,25 @@ export default function DealerMap({
 
     map.current.on('load', () => {
       console.log('✅ Map loaded successfully!');
+      console.log('  Map center:', map.current?.getCenter());
+      console.log('  Map zoom:', map.current?.getZoom());
+      console.log('  Map style:', map.current?.getStyle()?.name);
       setMapLoaded(true);
     });
 
     map.current.on('error', (e) => {
       console.error('❌ Map error:', e.error);
-      setMapError(`Map error: ${e.error.message || 'Unknown error'}`);
+      setMapError(`Map error: ${e.error?.message || 'Unknown error'}`);
+    });
+
+    map.current.on('styledata', () => {
+      console.log('🎨 Map style loaded');
+    });
+
+    map.current.on('sourcedata', (e) => {
+      if (e.isSourceLoaded) {
+        console.log('📦 Map source loaded:', e.sourceId);
+      }
     });
 
     return () => {
@@ -248,8 +261,8 @@ export default function DealerMap({
   }, [dealers, onDealerSelect]);
 
   return (
-    <div className={cn('relative w-full h-full', className)}>
-      <div ref={mapContainer} className="absolute inset-0 rounded-3xl overflow-hidden" />
+    <div className={cn('relative w-full h-full min-h-[400px]', className)}>
+      <div ref={mapContainer} className="absolute inset-0 rounded-3xl overflow-hidden bg-black" style={{ minHeight: '400px' }} />
       
       {/* Error State */}
       {mapError && (
