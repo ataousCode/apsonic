@@ -140,67 +140,55 @@ export const featureShowcase = [
   },
 ];
 
-// Feature Cards - "Get to know APSONIC" style with auto-rotating images
+// Feature Cards - "Get to know APSONIC" - Apple style with large auto-rotating images
 export const featureCards = [
   {
     id: "design",
     category: "Innovation",
-    title: "Beautiful and durable, by design.",
-    description:
-      "Every APSONIC motorcycle combines African-inspired aesthetics with world-class engineering.",
+    title: "Beautiful and durable,",
+    subtitle: "by design.",
     images: [
       "/assets/images/home/img1.png",
       "/assets/images/home/img2.jpeg",
       "/assets/images/home/img3.png",
     ],
-    imageAlt: "APSONIC design",
-    expandedContent:
-      "Our design philosophy honors African craftsmanship while leveraging modern manufacturing. Vibrant colors reflect our continent's energy, while reinforced construction ensures longevity on challenging roads.",
+    imageAlt: "APSONIC motorcycle design",
   },
   {
     id: "power",
     category: "Performance",
-    title: "Power that moves Africa forward.",
-    description:
-      "From 125cc urban efficiency to 250cc adventure capability, we have the right engine for every journey.",
+    title: "Power that moves",
+    subtitle: "Africa forward.",
     images: [
       "/assets/images/home/img2.jpeg",
       "/assets/images/home/img4.png",
       "/assets/images/home/img1.png",
     ],
     imageAlt: "APSONIC engine power",
-    expandedContent:
-      "Our engines are calibrated for African fuel standards and climate conditions. Advanced cooling systems prevent overheating in Sahel heat, while robust air filters handle dust that would clog lesser bikes.",
   },
   {
     id: "cargo",
     category: "Versatility",
-    title: "Built to carry your business.",
-    description:
-      "Reinforced cargo racks and payload capacity designed for African entrepreneurs.",
+    title: "Built to carry",
+    subtitle: "your business.",
     images: [
       "/assets/images/home/img3.png",
       "/assets/images/home/img1.png",
       "/assets/images/home/img2.jpeg",
     ],
     imageAlt: "APSONIC cargo capacity",
-    expandedContent:
-      "Whether transporting goods to market, delivering packages across cities, or carrying farming supplies to rural communities, APSONIC cargo bikes are engineered to handle heavy loads while maintaining stability and fuel efficiency.",
   },
   {
     id: "community",
     category: "APSONIC in Africa",
-    title: "More than machines. A community.",
-    description:
-      "Join 500,000+ riders across Africa who trust APSONIC for their daily mobility.",
+    title: "More than machines.",
+    subtitle: "A community.",
     images: [
       "/assets/images/home/img4.png",
       "/assets/images/home/img3.png",
       "/assets/images/home/img2.jpeg",
     ],
     imageAlt: "APSONIC community",
-    expandedContent:
-      "APSONIC riders are taxi drivers in Accra, delivery heroes in Lagos, farmers in rural Mali, and entrepreneurs everywhere. We support rider cooperatives, offer flexible financing through local partners, and celebrate the vital role motorcycles play in African development.",
   },
 ];
 
