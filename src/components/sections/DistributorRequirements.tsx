@@ -62,7 +62,7 @@ export default function DistributorRequirements() {
               <div className="glass-panel rounded-3xl p-6 sm:p-8 h-full">
                 {/* Category Title */}
                 <div className="mb-6 flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-apsonic-green text-black font-bold text-lg">
+                  <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-xl bg-apsonic-green text-black font-bold text-2xl sm:text-3xl">
                     {index + 1}
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white">

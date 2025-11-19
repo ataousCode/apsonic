@@ -86,13 +86,13 @@ export default function DistributorProcess() {
                       "relative z-10 flex h-20 w-20 items-center justify-center rounded-full border-4 transition-all duration-300",
                       index < 4 
                         ? "border-apsonic-green bg-apsonic-green text-black" 
-                        : "border-apsonic-border bg-apsonic-surface text-apsonic-green"
+                        : "border-apsonic-green bg-apsonic-green text-black"
                     )}>
                       {step.icon}
                     </div>
 
                     {/* Number */}
-                    <div className="mt-4 text-sm font-bold text-apsonic-green">
+                    <div className="mt-4 text-base font-bold text-apsonic-green">
                       {step.number}
                     </div>
 
@@ -123,7 +123,7 @@ export default function DistributorProcess() {
                     "flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border-4 transition-all duration-300",
                     index < 4 
                       ? "border-apsonic-green bg-apsonic-green text-black" 
-                      : "border-apsonic-border bg-apsonic-surface text-apsonic-green"
+                      : "border-apsonic-green bg-apsonic-green text-black"
                   )}>
                     {step.icon}
                   </div>

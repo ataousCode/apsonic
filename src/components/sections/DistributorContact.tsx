@@ -103,7 +103,7 @@ export default function DistributorContact() {
                 <Button
                   asChild
                   size="lg"
-                  className="rounded-full bg-apsonic-green px-8 font-semibold text-black hover:bg-apsonic-green-dark hover:text-white transition-all duration-300"
+                  className="rounded-full bg-apsonic-green px-8 font-semibold text-apsonic-ink hover:bg-apsonic-green-dark transition-all duration-300"
                 >
                   <a href="/dealers">View Dealer Locations</a>
                 </Button>

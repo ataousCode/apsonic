@@ -371,7 +371,7 @@ export default function DistributorApplicationForm() {
                   type="submit"
                   size="lg"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto rounded-full bg-apsonic-green px-8 font-semibold text-black hover:bg-apsonic-green-dark hover:text-white transition-all duration-300"
+                  className="w-full sm:w-auto rounded-full bg-apsonic-green px-8 font-semibold text-apsonic-ink hover:bg-apsonic-green-dark transition-all duration-300"
                 >
                   {isSubmitting ? (
                     <>
@@ -407,7 +407,7 @@ export default function DistributorApplicationForm() {
                   variant="outline"
                   disabled={isSubmitting}
                   onClick={() => reset()}
-                  className="w-full sm:w-auto rounded-full"
+                  className="w-full sm:w-auto rounded-full border-apsonic-border bg-apsonic-surface text-white hover:bg-apsonic-surface-elevated"
                 >
                   Reset Form
                 </Button>
