@@ -23,7 +23,7 @@ import {
 
 export default function Home() {
   return (
-    <main className="flex flex-col gap-0 bg-[var(--apsonic-ink)] pt-20">
+    <main className="flex flex-col gap-0 bg-[var(--apsonic-ink)] pt-20 overflow-x-hidden">
       <Hero />
       <PageSection className="bg-[var(--apsonic-surface)]">
         <Interactive360Viewer

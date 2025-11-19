@@ -68,23 +68,23 @@ export default function GetToKnowApsonic({
 
   return (
     <section
-      className="relative w-full section-gradient py-16 lg:py-24"
+      className="relative w-full section-gradient py-12 sm:py-16 lg:py-24 overflow-hidden"
       role="region"
       aria-label="Discover APSONIC Hero Carousel"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
         {/* Title */}
-        <h2 className="mb-12 text-4xl font-bold text-white sm:text-5xl lg:mb-16 lg:text-6xl">
+        <h2 className="mb-8 text-3xl font-bold text-white sm:text-4xl sm:mb-12 lg:text-5xl lg:mb-16 xl:text-6xl">
           {title}
         </h2>
 
         {/* Carousel Content - No container, seamless integration */}
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left: Product Image */}
-          <div className="relative flex items-center justify-center">
-            <div className="relative h-[400px] w-full lg:h-[600px]">
+          <div className="relative flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
+            <div className="relative h-[300px] w-full sm:h-[400px] lg:h-[500px] xl:h-[600px]">
               {slides.map((slide, index) => (
                 <div
                   key={slide.id}
@@ -113,7 +113,7 @@ export default function GetToKnowApsonic({
 
           {/* Right: Text Content */}
           <div className="flex flex-col justify-center">
-            <div className="space-y-4">
+            <div className="relative min-h-[200px] sm:min-h-[240px]">
               {slides.map((slide, index) => (
                 <div
                   key={`text-${slide.id}`}
@@ -124,10 +124,10 @@ export default function GetToKnowApsonic({
                       : 'absolute opacity-0 translate-x-8 pointer-events-none'
                   )}
                 >
-                  <h3 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                  <h3 className="text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl xl:text-5xl">
                     {slide.title}
                   </h3>
-                  <p className="mt-4 text-lg leading-relaxed text-apsonic-muted lg:text-xl">
+                  <p className="mt-3 text-base leading-relaxed text-apsonic-muted sm:mt-4 sm:text-lg lg:text-xl">
                     {slide.description}
                   </p>
                 </div>

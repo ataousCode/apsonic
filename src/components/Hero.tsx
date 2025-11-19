@@ -5,6 +5,7 @@ import gsap from "gsap";
 import CloudImage from "./CloudImage";
 import { Button } from "@/components/ui/Button";
 import { heroImages, heroStats } from "@/data/home";
+import { cn } from "@/lib/utils";
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -55,7 +56,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="hero-gradient relative flex min-h-hero lg:min-h-hero-lg flex-col justify-end overflow-hidden"
+      className="hero-gradient relative flex min-h-[500px] sm:min-h-hero md:min-h-hero-md lg:min-h-hero-lg flex-col justify-end overflow-hidden"
     >
       <div className="absolute inset-0">
         {heroImages.map((src, index) => (
@@ -73,24 +74,24 @@ export default function Hero() {
         ))}
         <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/70 to-black/80" />
       </div>
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 pb-32 pt-48 sm:px-10 lg:pb-40">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pb-16 pt-24 sm:gap-12 sm:px-6 sm:pb-24 sm:pt-32 lg:pb-40 lg:pt-48">
         <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.5em] text-emerald-200 hero-body">
+          <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.3em] sm:tracking-[0.5em] text-emerald-200 hero-body">
             Good Quality • Good Life
           </p>
-          <h1 className="hero-heading mt-6 text-5xl font-bold leading-tight text-white sm:text-6xl lg:text-7xl">
+          <h1 className="hero-heading mt-4 text-3xl font-bold leading-tight text-white sm:mt-6 sm:text-5xl lg:text-6xl xl:text-7xl">
             Durable mobility ecosystems for the African backbone.
           </h1>
-          <p className="hero-body mt-8 text-xl text-white/90 leading-relaxed">
+          <p className="hero-body mt-4 text-base sm:mt-8 sm:text-lg lg:text-xl text-white/90 leading-relaxed">
             APSONIC partners with governments, cooperatives, and distributors to deploy resilient
             motorcycles, predictive service, and financing infrastructure across 26 African markets.
           </p>
         </div>
-        <div className="hero-cta flex flex-col gap-5 sm:flex-row">
+        <div className="hero-cta flex flex-col gap-3 sm:gap-4 sm:flex-row">
           <Button
             asChild
             size="lg"
-            className="rounded-full bg-apsonic-green px-10 text-base font-semibold text-black hover:bg-apsonic-green-dark hover:text-white transition-all duration-300"
+            className="w-full sm:w-auto rounded-full bg-apsonic-green px-6 sm:px-10 text-sm sm:text-base font-semibold text-black hover:bg-apsonic-green-dark hover:text-white transition-all duration-300"
           >
             <a href="#products">Explore Vehicle Line-up</a>
           </Button>
@@ -98,16 +99,24 @@ export default function Hero() {
             asChild
             size="lg"
             variant="outline"
-            className="rounded-full border-white/40 bg-white/5 px-10 text-base font-semibold text-white hover:bg-white/10 hover:border-white/60 transition-all duration-300"
+            className="w-full sm:w-auto rounded-full border-white/40 bg-white/5 px-6 sm:px-10 text-sm sm:text-base font-semibold text-white hover:bg-white/10 hover:border-white/60 transition-all duration-300"
           >
             <a href="#viewer">360° experience</a>
           </Button>
         </div>
-        <div className="glass-panel grid grid-cols-2 gap-4 rounded-3xl p-6 text-white/80 sm:grid-cols-4">
-          {heroStats.map((stat) => (
-            <div key={stat.label} className="hero-stat space-y-2 border-white/5 text-left sm:border-l sm:pl-6 first:border-l-0 first:pl-0">
-              <p className="text-2xl font-semibold text-white">{stat.value}</p>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">{stat.label}</p>
+        <div className="glass-panel grid grid-cols-2 gap-3 sm:gap-4 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white/80 lg:grid-cols-4">
+          {heroStats.map((stat, index) => (
+            <div 
+              key={stat.label} 
+              className={cn(
+                "hero-stat space-y-1 sm:space-y-2 text-left",
+                index > 1 ? "lg:border-l lg:border-white/5 lg:pl-6" : "",
+                index === 1 ? "sm:border-l sm:border-white/5 sm:pl-4 lg:pl-6" : "",
+                index === 0 ? "" : ""
+              )}
+            >
+              <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-white">{stat.value}</p>
+              <p className="text-[0.625rem] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-white/60 leading-tight">{stat.label}</p>
             </div>
           ))}
         </div>

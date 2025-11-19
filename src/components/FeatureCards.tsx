@@ -47,29 +47,29 @@ function FeatureCardItem({
 
   return (
     <ScrollReveal direction="up" delay={index * 0.1}>
-      <div className="group relative overflow-hidden rounded-[2.5rem] glass-panel">
+      <div className="group relative overflow-hidden rounded-3xl sm:rounded-[2.5rem] glass-panel">
         {/* Card Content */}
-        <div className="relative flex min-h-[650px] flex-col lg:min-h-[700px]">
+        <div className="relative flex min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] flex-col">
           {/* Decorative Glow */}
-          <div className="absolute -top-24 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-apsonic-green/20 blur-3xl" />
+          <div className="absolute -top-20 left-1/2 h-40 w-40 sm:-top-24 sm:h-48 sm:w-48 -translate-x-1/2 rounded-full bg-apsonic-green/20 blur-3xl" />
 
           {/* Text Content - Top */}
-          <div className="relative z-10 p-10 lg:p-12">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-apsonic-accent">
+          <div className="relative z-10 p-6 sm:p-8 lg:p-10 xl:p-12">
+            <p className="text-[0.625rem] sm:text-xs font-semibold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-apsonic-accent">
               {card.category}
             </p>
-            <h3 className="mt-3 max-w-xs text-3xl font-bold leading-tight text-white lg:text-4xl">
+            <h3 className="mt-2 sm:mt-3 max-w-xs text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white">
               {card.title}
             </h3>
             {card.subtitle && (
-              <p className="mt-1 text-3xl font-bold leading-tight text-white lg:text-4xl">
+              <p className="mt-1 text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white">
                 {card.subtitle}
               </p>
             )}
           </div>
 
           {/* Large Product Images - Center/Bottom */}
-          <div className="relative flex flex-1 items-end justify-center px-8 pb-8 lg:px-12 lg:pb-12">
+          <div className="relative flex flex-1 items-end justify-center px-4 pb-6 sm:px-8 sm:pb-8 lg:px-12 lg:pb-12">
             {card.images.map((img, imgIndex) => (
               <div
                 key={`${card.id}-img-${imgIndex}`}
@@ -130,17 +130,17 @@ function FeatureCardItem({
 
 export default function FeatureCards({ title, cards }: FeatureCardsProps) {
   return (
-    <div className="section-gradient py-20 lg:py-32">
-      <div className="mx-auto max-w-[1400px] space-y-12 px-6">
+    <div className="section-gradient py-12 sm:py-16 lg:py-24 xl:py-32 overflow-hidden">
+      <div className="mx-auto max-w-[1400px] space-y-8 sm:space-y-12 px-4 sm:px-6">
         {/* Section Title */}
         <ScrollReveal direction="up">
-          <h2 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl xl:text-6xl">
             {title}
           </h2>
         </ScrollReveal>
 
         {/* Cards Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((card, index) => (
             <FeatureCardItem
               key={card.id}

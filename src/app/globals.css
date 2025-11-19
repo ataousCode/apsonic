@@ -14,6 +14,11 @@
     --apsonic-text: var(--color-text-primary);
     --apsonic-muted: var(--color-text-secondary);
   }
+  
+  html {
+    overflow-x: hidden;
+    width: 100%;
+  }
 
   body {
     background-color: var(--color-ink);
@@ -23,6 +28,9 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
   }
 
   ::selection {
