@@ -22,7 +22,6 @@ export default function GetToKnowApsonic({
   slides,
 }: GetToKnowApsonicProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const prefersReducedMotion = useRef(false);
 
@@ -30,21 +29,21 @@ export default function GetToKnowApsonic({
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     prefersReducedMotion.current = mediaQuery.matches;
-    
+
     const handleChange = (e: MediaQueryListEvent) => {
       prefersReducedMotion.current = e.matches;
     };
-    
+
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   const goToSlide = (index: number) => {
     if (isTransitioning || index === currentIndex) return;
-    
+
     setIsTransitioning(true);
     setCurrentIndex(index);
-    
+
     setTimeout(() => setIsTransitioning(false), 600);
   };
 
@@ -53,16 +52,16 @@ export default function GetToKnowApsonic({
     goToSlide(nextIndex);
   };
 
-  // Auto-advance slides
+  // Auto-advance slides every 3 seconds
   useEffect(() => {
-    if (isPaused || prefersReducedMotion.current) return;
+    if (prefersReducedMotion.current) return;
 
     const interval = setInterval(() => {
-      goToNext();
-    }, 5000);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isPaused]);
+  }, [slides.length]);
 
   const currentSlide = slides[currentIndex];
 
@@ -71,8 +70,6 @@ export default function GetToKnowApsonic({
       className="relative w-full section-gradient py-12 sm:py-16 lg:py-24 overflow-hidden"
       role="region"
       aria-label="Discover APSONIC Hero Carousel"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
         {/* Title */}
@@ -136,45 +133,11 @@ export default function GetToKnowApsonic({
           </div>
         </div>
 
-        {/* Navigation Dots & Controls */}
-        <div className="mt-12 flex items-center justify-center gap-2">
-          {slides.map((slide, index) => (
-            <button
-              key={`dot-${slide.id}`}
-              onClick={() => goToSlide(index)}
-              className={cn(
-                'h-2 rounded-full transition-all duration-300',
-                index === currentIndex
-                  ? 'w-8 bg-apsonic-green'
-                  : 'w-2 bg-white/30 hover:bg-white/50'
-              )}
-              aria-label={`Go to slide ${index + 1}: ${slide.title}`}
-              aria-current={index === currentIndex}
-            />
-          ))}
+      </div>
 
-          {/* Play/Pause button */}
-          <button
-            onClick={() => setIsPaused(!isPaused)}
-            className="ml-2 flex h-6 w-6 items-center justify-center rounded-full bg-apsonic-green text-white transition-all hover:bg-apsonic-green-dark"
-            aria-label={isPaused ? 'Play carousel' : 'Pause carousel'}
-          >
-            {isPaused ? (
-              <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            ) : (
-              <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-              </svg>
-            )}
-          </button>
-        </div>
-
-        {/* Screen reader announcements */}
-        <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-          Slide {currentIndex + 1} of {slides.length}: {currentSlide.title}
-        </div>
+      {/* Screen reader announcements */}
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        Slide {currentIndex + 1} of {slides.length}: {currentSlide.title}
       </div>
     </section>
   );

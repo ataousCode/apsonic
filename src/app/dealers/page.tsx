@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { PageSection } from "@/components/ui/PageSection";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
@@ -16,23 +16,36 @@ import { cn } from "@/lib/utils";
 import DistributorCTA from "@/components/DistributorCTA";
 import DealerMap from "@/components/DealerMap";
 import DealerCard from "@/components/DealerCard";
+import DealerDetailModal from "@/components/DealerDetailModal";
+import FeaturedDealers from "@/components/FeaturedDealers";
+import CoverageMap from "@/components/CoverageMap";
 import MapboxDiagnostic from "@/components/MapboxDiagnostic";
+import {
+  requestGeolocation,
+  calculateDistance,
+  sortByDistance,
+  type Coordinates,
+} from "@/lib/dealerUtils";
 
 type FilterValue = DealerCategory | "all";
+type SortOption = "default" | "distance" | "rating" | "name";
 
 export default function DealersPage() {
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterValue>("all");
   const [selectedDealer, setSelectedDealer] = useState<DealerEntry | null>(null);
+  const [detailModalDealer, setDetailModalDealer] = useState<DealerEntry | null>(null);
+  const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
+  const [sortBy, setSortBy] = useState<SortOption>("default");
+  const [loadingLocation, setLoadingLocation] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
 
-  // Handle dealer selection from map
+  // Handle dealer selection from map (scroll to card)
   const handleDealerSelect = (dealer: DealerEntry) => {
     setSelectedDealer(dealer);
-    // Scroll to the dealer card
     const cardElement = document.getElementById(`dealer-${dealer.id}`);
     if (cardElement) {
       cardElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // Briefly highlight the card
       cardElement.classList.add('ring-2', 'ring-apsonic-green');
       setTimeout(() => {
         cardElement.classList.remove('ring-2', 'ring-apsonic-green');
@@ -40,9 +53,37 @@ export default function DealersPage() {
     }
   };
 
+  // Handle view details (open modal)
+  const handleViewDetails = (dealer: DealerEntry) => {
+    setDetailModalDealer(dealer);
+  };
+
+  // Request user geolocation
+  const handleFindNearMe = useCallback(async () => {
+    setLoadingLocation(true);
+    setLocationError(null);
+    
+    try {
+      const location = await requestGeolocation();
+      setUserLocation(location);
+      setSortBy("distance");
+    } catch (error) {
+      setLocationError(
+        error instanceof Error 
+          ? error.message 
+          : "Unable to access your location. Please enable location services."
+      );
+    } finally {
+      setLoadingLocation(false);
+    }
+  }, []);
+
+  // Filter and sort dealers
   const filteredDealers = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    return dealerEntries.filter((dealer) => {
+    
+    // Filter by search query and category
+    let dealers = dealerEntries.filter((dealer) => {
       const matchesQuery =
         !normalized ||
         dealer.name.toLowerCase().includes(normalized) ||
@@ -53,7 +94,33 @@ export default function DealersPage() {
       const matchesFilter = activeFilter === "all" || dealer.categories.includes(activeFilter);
       return matchesQuery && matchesFilter;
     });
-  }, [query, activeFilter]);
+
+    // Sort dealers
+    if (sortBy === "distance" && userLocation) {
+      dealers = sortByDistance(dealers, userLocation);
+    } else if (sortBy === "rating") {
+      dealers = [...dealers].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    } else if (sortBy === "name") {
+      dealers = [...dealers].sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    return dealers;
+  }, [query, activeFilter, sortBy, userLocation]);
+
+  // Calculate distance for each dealer
+  const dealersWithDistance = useMemo(() => {
+    if (!userLocation) return filteredDealers.map(d => ({ dealer: d, distance: undefined }));
+    
+    return filteredDealers.map(dealer => ({
+      dealer,
+      distance: calculateDistance(
+        userLocation.lat,
+        userLocation.lng,
+        dealer.coordinates.lat,
+        dealer.coordinates.lng
+      ),
+    }));
+  }, [filteredDealers, userLocation]);
 
   return (
     <main className="bg-[var(--apsonic-ink)] text-white pt-20">
@@ -97,6 +164,9 @@ export default function DealersPage() {
         </div>
       </section>
 
+      {/* Featured Dealers Section */}
+      <FeaturedDealers dealers={dealerEntries} onDealerClick={handleViewDetails} />
+
       <PageSection id="network" className="bg-[var(--apsonic-surface-alt)]">
         <SectionHeader
           eyebrow="Dealer Network"
@@ -105,6 +175,7 @@ export default function DealersPage() {
         />
 
         <div className="mt-10 space-y-6">
+          {/* Search and Location */}
           <div className="flex flex-col gap-4 lg:flex-row">
             <input
               type="text"
@@ -113,61 +184,123 @@ export default function DealersPage() {
               placeholder="Search by city, country, or dealer name..."
               className="h-12 flex-1 rounded-full border border-white/15 bg-black/20 px-5 text-white placeholder:text-white/40 focus:border-[var(--apsonic-green)] focus:outline-none"
             />
-            <div className="flex items-center gap-2 text-sm text-white/60">
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              {filteredDealers.length} dealer{filteredDealers.length !== 1 ? 's' : ''} found
+            <Button
+              onClick={handleFindNearMe}
+              disabled={loadingLocation}
+              className={cn(
+                "rounded-full border px-6 transition-all",
+                userLocation
+                  ? "border-apsonic-green/40 bg-apsonic-green/20 text-apsonic-green hover:bg-apsonic-green hover:text-black"
+                  : "border-white/20 bg-white/10 text-white hover:bg-white/20"
+              )}
+            >
+              {loadingLocation ? (
+                <>
+                  <svg className="mr-2 h-4 w-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Finding...
+                </>
+              ) : (
+                <>
+                  <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  {userLocation ? 'Location Enabled' : 'Find Near Me'}
+                </>
+              )}
+            </Button>
+          </div>
+
+          {/* Location Error */}
+          {locationError && (
+            <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4">
+              <p className="text-sm text-red-300">⚠️ {locationError}</p>
+            </div>
+          )}
+
+          {/* Filters and Sort */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap gap-3">
+              <FilterChip label="All" active={activeFilter === "all"} onClick={() => setActiveFilter("all")} />
+              {dealerFilters.map((filter) => (
+                <FilterChip
+                  key={filter.slug}
+                  label={filter.label}
+                  active={activeFilter === filter.slug}
+                  onClick={() => setActiveFilter(filter.slug)}
+                />
+              ))}
+            </div>
+
+            {/* Sort Dropdown */}
+            <div className="flex items-center gap-3">
+              <span className="text-xs uppercase tracking-wider text-white/50">Sort by:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="rounded-full border border-white/20 bg-black/20 px-4 py-2 text-sm text-white focus:border-apsonic-green focus:outline-none"
+              >
+                <option value="default">Default</option>
+                <option value="distance" disabled={!userLocation}>Distance {!userLocation && '(Enable location)'}</option>
+                <option value="rating">Highest Rated</option>
+                <option value="name">Name (A-Z)</option>
+              </select>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <FilterChip label="All" active={activeFilter === "all"} onClick={() => setActiveFilter("all")} />
-            {dealerFilters.map((filter) => (
-              <FilterChip
-                key={filter.slug}
-                label={filter.label}
-                active={activeFilter === filter.slug}
-                onClick={() => setActiveFilter(filter.slug)}
-              />
-            ))}
+          {/* Results Count */}
+          <div className="flex items-center gap-2 text-sm text-white/60">
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span>
+              {filteredDealers.length} dealer{filteredDealers.length !== 1 ? 's' : ''} found
+              {userLocation && sortBy === "distance" && " • Sorted by distance"}
+            </span>
           </div>
         </div>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
-          {/* Dealer Cards */}
-          <div className="space-y-5 lg:order-2">
-            {filteredDealers.length === 0 ? (
-              <div className="rounded-3xl border border-white/10 bg-black/20 p-8 text-center">
-                <svg className="mx-auto mb-4 h-16 w-16 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <p className="text-lg font-semibold text-white/70">No dealers found</p>
-                <p className="mt-2 text-sm text-white/50">Try adjusting your search or filters</p>
-                <Button 
-                  onClick={() => {
-                    setQuery("");
-                    setActiveFilter("all");
-                  }}
-                  variant="outline"
-                  className="mt-4 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
-                >
-                  Reset Filters
-                </Button>
-              </div>
-            ) : (
-              filteredDealers.map((dealer) => (
-                <DealerCard 
-                  key={dealer.id} 
-                  dealer={dealer}
-                  onViewDetails={handleDealerSelect}
-                />
-              ))
-            )}
+          {/* Dealer Cards - Scrollable Container */}
+          <div className="lg:order-2 lg:max-h-[800px] lg:overflow-y-auto lg:pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent hover:scrollbar-thumb-white/20">
+            <div className="space-y-5">
+              {filteredDealers.length === 0 ? (
+                <div className="rounded-3xl border border-white/10 bg-black/20 p-8 text-center">
+                  <svg className="mx-auto mb-4 h-16 w-16 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <p className="text-lg font-semibold text-white/70">No dealers found</p>
+                  <p className="mt-2 text-sm text-white/50">Try adjusting your search or filters</p>
+                  <Button 
+                    onClick={() => {
+                      setQuery("");
+                      setActiveFilter("all");
+                      setSortBy("default");
+                    }}
+                    variant="outline"
+                    className="mt-4 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                  >
+                    Reset Filters
+                  </Button>
+                </div>
+              ) : (
+                dealersWithDistance.map(({ dealer, distance }) => (
+                  <DealerCard 
+                    key={dealer.id} 
+                    dealer={dealer}
+                    onViewDetails={handleViewDetails}
+                    userLocation={userLocation || undefined}
+                    distance={distance}
+                  />
+                ))
+              )}
+            </div>
           </div>
 
           {/* Interactive Map */}
-          <aside className="space-y-5 lg:order-1 lg:sticky lg:top-24 lg:h-[calc(100vh-8rem)]">
+          <aside className="space-y-5 lg:order-1 lg:sticky lg:top-24 lg:h-[800px]">
             <div className="rounded-[28px] border border-white/10 bg-black/25 p-6 h-full flex flex-col">
               <div className="text-center mb-4">
                 <p className="text-xs uppercase tracking-[0.4em] text-white/50">Interactive Map</p>
@@ -198,6 +331,27 @@ export default function DealersPage() {
       </PageSection>
 
       <DistributorCTA />
+
+      {/* Coverage Map */}
+      <CoverageMap dealers={dealerEntries} />
+      
+      {/* Dealer Detail Modal */}
+      {detailModalDealer && (
+        <DealerDetailModal
+          dealer={detailModalDealer}
+          onClose={() => setDetailModalDealer(null)}
+          distance={
+            userLocation
+              ? calculateDistance(
+                  userLocation.lat,
+                  userLocation.lng,
+                  detailModalDealer.coordinates.lat,
+                  detailModalDealer.coordinates.lng
+                )
+              : undefined
+          }
+        />
+      )}
       
       {/* Temporary diagnostic panel */}
       <MapboxDiagnostic />

@@ -12,6 +12,7 @@ export type SocialLink = {
 export const primaryNavLinks: NavLink[] = [
   { href: "/products", label: "Products" },
   { href: "/dealers", label: "Dealers" },
+  { href: "/afcon", label: "AFCON" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

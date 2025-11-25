@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 import Interactive360Viewer from "@/components/Interactive360Viewer";
 import GetToKnowApsonic from "@/components/GetToKnowApsonic";
 import FeatureShowcase from "@/components/FeatureShowcase";
-import FeatureCards from "@/components/FeatureCards";
+
 import ModelsCarousel from "@/components/ModelsCarousel";
 import BikeViewer from "@/components/BikeViewer";
 import ServiceAdvantages from "@/components/ServiceAdvantages";
@@ -10,16 +10,10 @@ import PromoVideo from "@/components/PromoVideo";
 import DistributorCTA from "@/components/DistributorCTA";
 import ImpactHighlights from "@/components/ImpactHighlights";
 import AFCONSponsorship from "@/components/AFCONSponsorship";
+import { latest360Bike, getToKnowApsonicSlides, featureShowcase, modelsCarouselItems, viewerFrames } from "@/data/home";
 import { PageSection } from "@/components/ui/PageSection";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { 
-  modelsCarouselItems, 
-  viewerFrames, 
-  latest360Bike,
-  featureShowcase,
-  featureCards,
-  getToKnowApsonicSlides
-} from "@/data/home";
+
+
 
 export default function Home() {
   return (
@@ -35,15 +29,10 @@ export default function Home() {
         />
       </PageSection>
       <GetToKnowApsonic title="Discover APSONIC." slides={getToKnowApsonicSlides} />
-      <FeatureCards title="Experience APSONIC." cards={featureCards} />
+
       <FeatureShowcase features={featureShowcase} />
       <PageSection id="products" className="section-gradient">
-        <SectionHeader
-          eyebrow="Platforms"
-          title="Recommended APSONIC platforms"
-          description="Adaptable motorcycles optimized for last-mile logistics, commercial fleets, and national programs."
-          align="center"
-        />
+
         <ModelsCarousel items={modelsCarouselItems} />
       </PageSection>
       <PageSection id="impact" className="bg-[var(--apsonic-surface)]">
