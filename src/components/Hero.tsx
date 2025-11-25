@@ -66,9 +66,8 @@ export default function Hero() {
             alt={`APSONIC Hero Image ${index + 1}`}
             width={1920}
             height={1080}
-            className={`absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-[2500ms] ease-out ${
-              index === currentImageIndex ? "opacity-80" : ""
-            }`}
+            className={`absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-[2500ms] ease-out ${index === currentImageIndex ? "opacity-80" : ""
+              }`}
             priority={index === 0}
           />
         ))}
@@ -91,7 +90,7 @@ export default function Hero() {
           <Button
             asChild
             size="lg"
-            className="w-full sm:w-auto rounded-full bg-apsonic-green px-6 sm:px-10 text-sm sm:text-base font-semibold text-black hover:bg-apsonic-green-dark hover:text-white transition-all duration-300"
+            className="w-full sm:w-auto rounded-full bg-white px-6 sm:px-10 text-sm sm:text-base font-semibold text-black hover:bg-white/90 transition-all duration-300"
           >
             <a href="#products">Explore Vehicle Line-up</a>
           </Button>
@@ -106,8 +105,8 @@ export default function Hero() {
         </div>
         <div className="glass-panel grid grid-cols-2 gap-3 sm:gap-4 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white/80 lg:grid-cols-4">
           {heroStats.map((stat, index) => (
-            <div 
-              key={stat.label} 
+            <div
+              key={stat.label}
               className={cn(
                 "hero-stat space-y-1 sm:space-y-2 text-left",
                 index > 1 ? "lg:border-l lg:border-white/5 lg:pl-6" : "",

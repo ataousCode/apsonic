@@ -7,9 +7,10 @@ export type ModelCarouselItem = {
 };
 
 export const heroImages = [
-  "/assets/images/home/img1.png",
-  "/assets/images/home/img2.jpeg",
-  "/assets/images/home/img3.png",
+  "/assets/images/home/img26.jpg",
+  "/assets/images/home/img23.jpg",
+  "/assets/images/home/img22.jpg",
+  "/assets/images/home/img21.jpg",
 ];
 
 export const latest360Bike = {
@@ -17,10 +18,10 @@ export const latest360Bike = {
   subtitle: "Latest Model",
   description: "Our most advanced adventure motorcycle yet. Built for African terrain with enhanced suspension, powerful EFI engine, and premium components. Experience the future of mobility.",
   images: [
-    "/assets/images/home/img1.png", // Front view
-    "/assets/images/home/img2.jpeg", // Side view
-    "/assets/images/home/img3.png", // Rear view
-    "/assets/images/home/img4.png", // Other side view
+    "/assets/images/home/img26.jpg", // Front view
+    "/assets/images/home/img23.jpg", // Side view
+    "/assets/images/home/img22.jpg", // Rear view
+    "/assets/images/home/img21.jpg", // Other side view
   ],
   specs: [
     { label: "Engine", value: "250cc EFI" },
@@ -34,31 +35,32 @@ export const modelsCarouselItems: ModelCarouselItem[] = [
   {
     id: "adv-200",
     name: "Apsonic ADV 200",
-    imageSrc: "/assets/images/home/img1.png",
+    imageSrc: "/assets/images/home/img24.jpg",
     specs: "200cc • 6-speed",
     slug: "adv-200",
   },
   {
     id: "street-150",
     name: "Apsonic Street 150",
-    imageSrc: "/assets/images/home/img2.jpeg",
+    imageSrc: "/assets/images/home/img25.jpg",
     specs: "150cc • EFI",
     slug: "street-150",
   },
   {
     id: "cargo-125",
     name: "Apsonic Cargo 125",
-    imageSrc: "/assets/images/home/img3.png",
+    imageSrc: "/assets/images/home/img20.jpg",
     specs: "125cc • Cargo Rack",
     slug: "cargo-125",
   },
 ];
 
 export const viewerFrames = [
-  "/assets/images/home/img1.png",
-  "/assets/images/home/img2.jpeg",
-  "/assets/images/home/img3.png",
-  "/assets/images/home/img4.png",
+  "/assets/images/home/img15.jpg",
+  "/assets/images/home/img16.jpg",
+  "/assets/images/home/img17.jpg",
+  "/assets/images/home/img18.jpg",
+  "/assets/images/home/img19.jpg",
 ];
 
 export const heroStats = [
@@ -108,36 +110,6 @@ export const featureShowcase = [
     imageAlt: "APSONIC motorcycle on African terrain",
     darkBg: false,
   },
-  {
-    id: "affordability",
-    category: "Good Quality • Good Life",
-    title: "Premium quality. Accessible pricing.",
-    description:
-      "We believe quality mobility shouldn't be a luxury. APSONIC delivers professional-grade motorcycles at prices that empower African entrepreneurs, delivery riders, and families. Our fuel-efficient engines reduce daily costs, while durable construction minimizes maintenance expenses.",
-    image: "/assets/images/home/img2.jpeg",
-    imageAlt: "APSONIC affordable motorcycle",
-    darkBg: true,
-  },
-  {
-    id: "service",
-    category: "Pan-African Network",
-    title: "Never far from expert support.",
-    description:
-      "With over 1,200 certified service centers across 26 African countries, APSONIC ensures you're never alone on the road. Our technicians receive factory training, genuine spare parts are always in stock, and multilingual support teams understand your local needs.",
-    image: "/assets/images/home/img3.png",
-    imageAlt: "APSONIC service network",
-    darkBg: false,
-  },
-  {
-    id: "innovation",
-    category: "Future-Ready",
-    title: "Technology that works for Africa.",
-    description:
-      "APSONIC integrates smart technology designed for real African conditions. Telematics-ready systems for fleet management, fuel-efficient EFI engines adapted for local fuel quality, and modular designs that simplify repairs in remote areas. Innovation that serves your daily reality.",
-    image: "/assets/images/home/img4.png",
-    imageAlt: "APSONIC technology",
-    darkBg: true,
-  },
 ];
 
 // Feature Cards - "Get to know APSONIC" - Apple style with large auto-rotating images
@@ -148,9 +120,9 @@ export const featureCards = [
     title: "Beautiful and durable,",
     subtitle: "by design.",
     images: [
-      "/assets/images/home/img1.png",
-      "/assets/images/home/img2.jpeg",
-      "/assets/images/home/img3.png",
+      "/assets/images/home/img5.jpg",
+      "/assets/images/home/img6.jpg",
+      "/assets/images/home/img7.jpg",
     ],
     imageAlt: "APSONIC motorcycle design",
   },
@@ -160,9 +132,9 @@ export const featureCards = [
     title: "Power that moves",
     subtitle: "Africa forward.",
     images: [
-      "/assets/images/home/img2.jpeg",
-      "/assets/images/home/img4.png",
-      "/assets/images/home/img1.png",
+      "/assets/images/home/img8.jpg",
+      "/assets/images/home/img9.jpg",
+      "/assets/images/home/img10.jpg",
     ],
     imageAlt: "APSONIC engine power",
   },
@@ -172,9 +144,9 @@ export const featureCards = [
     title: "Built to carry",
     subtitle: "your business.",
     images: [
-      "/assets/images/home/img3.png",
-      "/assets/images/home/img1.png",
-      "/assets/images/home/img2.jpeg",
+      "/assets/images/home/img11.jpg",
+      "/assets/images/home/img12.jpg",
+      "/assets/images/home/img13.jpg",
     ],
     imageAlt: "APSONIC cargo capacity",
   },
@@ -184,9 +156,9 @@ export const featureCards = [
     title: "More than machines.",
     subtitle: "A community.",
     images: [
-      "/assets/images/home/img4.png",
-      "/assets/images/home/img3.png",
-      "/assets/images/home/img2.jpeg",
+      "/assets/images/home/img14.jpg",
+      "/assets/images/home/img26.jpg",
+      "/assets/images/home/img23.jpg",
     ],
     imageAlt: "APSONIC community",
   },
@@ -196,7 +168,7 @@ export const featureCards = [
 export const getToKnowApsonicSlides = [
   {
     id: "durability",
-    image: "/assets/images/home/img1.png",
+    image: "/assets/images/home/img26.jpg",
     imageAlt: "APSONIC ADV 250X motorcycle showing durability features",
     title: "Built for African roads. Engineered to last.",
     description:
@@ -204,7 +176,7 @@ export const getToKnowApsonicSlides = [
   },
   {
     id: "power",
-    image: "/assets/images/home/img2.jpeg",
+    image: "/assets/images/home/img23.jpg",
     imageAlt: "APSONIC motorcycle engine and performance",
     title: "250cc power. Maximum efficiency.",
     description:
@@ -212,7 +184,7 @@ export const getToKnowApsonicSlides = [
   },
   {
     id: "cargo",
-    image: "/assets/images/home/img3.png",
+    image: "/assets/images/home/img22.jpg",
     imageAlt: "APSONIC cargo motorcycle with heavy load capacity",
     title: "Heavy-duty cargo. Built for business.",
     description:
@@ -220,7 +192,7 @@ export const getToKnowApsonicSlides = [
   },
   {
     id: "network",
-    image: "/assets/images/home/img4.png",
+    image: "/assets/images/home/img21.jpg",
     imageAlt: "APSONIC service network across Africa",
     title: "1,200+ service centers. Always supported.",
     description:

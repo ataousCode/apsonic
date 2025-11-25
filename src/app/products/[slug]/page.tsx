@@ -1,17 +1,54 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import { products, getProductBySlug } from '@/data/products';
+import ProductDetailClient from '@/app/products/[slug]/ProductDetailClient';
 
 type Params = { slug: string };
 
-export default async function ProductDetailPage({ params }: { params: Params }) {
-  const { slug } = params;
-  const product = { name: "Sample Product", slug };
-  if (!product) notFound();
-  return (
-    <div className="px-6 py-12">
-      <div className="mx-auto max-w-5xl">
-        <h1 className="text-3xl font-semibold tracking-tight text-[#111111] dark:text-zinc-50">{product.name}</h1>
-        <div className="mt-4 text-zinc-700 dark:text-zinc-300">Product details will be loaded from CMS.</div>
-      </div>
-    </div>
-  );
+// Generate static params for all products
+export async function generateStaticParams() {
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
+
+// Generate metadata for each product
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+    };
+  }
+
+  return {
+    title: `${product.name} – ${product.tagline}`,
+    description: product.description.long,
+    openGraph: {
+      title: `${product.name} | APSONIC`,
+      description: product.description.short,
+      url: `https://apsonic.example/products/${product.slug}`,
+      images: [
+        {
+          url: product.images.hero,
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+    },
+  };
+}
+
+export default async function ProductDetailPage({ params }: { params: Promise<Params> }) {
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
+
+  if (!product) {
+    notFound();
+  }
+
+  return <ProductDetailClient product={product} />;
 }

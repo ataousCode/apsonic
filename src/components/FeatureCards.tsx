@@ -20,11 +20,11 @@ type FeatureCardsProps = {
 };
 
 // Individual card with auto-rotating large images (Apple style)
-function FeatureCardItem({ 
-  card, 
-  index 
-}: { 
-  card: FeatureCard; 
+function FeatureCardItem({
+  card,
+  index
+}: {
+  card: FeatureCard;
   index: number;
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -75,8 +75,8 @@ function FeatureCardItem({
                 key={`${card.id}-img-${imgIndex}`}
                 className={cn(
                   "absolute inset-x-0 bottom-0 flex items-end justify-center transition-all duration-1000 ease-in-out",
-                  imgIndex === currentImageIndex 
-                    ? "opacity-100 scale-100 z-10" 
+                  imgIndex === currentImageIndex
+                    ? "opacity-100 scale-100 z-10"
                     : "opacity-0 scale-95 z-0"
                 )}
                 style={{

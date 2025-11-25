@@ -74,25 +74,25 @@ export const milestones = [
 export const showcaseImages = [
   {
     id: "img1",
-    src: "/assets/images/home/img1.png",
+    src: "/assets/images/home/img26.jpg",
     alt: "APSONIC motorcycle in African market",
     caption: "Empowering daily mobility",
   },
   {
     id: "img2",
-    src: "/assets/images/home/img2.jpeg",
+    src: "/assets/images/home/img23.jpg",
     alt: "APSONIC service center",
     caption: "Localized support network",
   },
   {
     id: "img3",
-    src: "/assets/images/home/img3.png",
+    src: "/assets/images/home/img22.jpg",
     alt: "APSONIC fleet operations",
     caption: "Commercial fleet solutions",
   },
   {
     id: "img4",
-    src: "/assets/images/home/img4.png",
+    src: "/assets/images/home/img21.jpg",
     alt: "APSONIC training academy",
     caption: "Technical training hubs",
   },
