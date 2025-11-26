@@ -1,8 +1,3 @@
-/**
- * AFCON Timeline Component
- * Interactive timeline showcasing AFCON 2024 & 2025 tournaments
- */
-
 'use client';
 
 import React from 'react';
@@ -12,6 +7,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { cn } from '@/lib/utils';
 import { afconTournaments } from '@/data/afcon';
 import { useFadeInOnScroll } from '@/hooks/useScrollAnimation';
+import AnimatedBackground from '@/components/ui/AnimatedBackground';
 
 type AfconTimelineProps = {
     className?: string;
@@ -19,8 +15,10 @@ type AfconTimelineProps = {
 
 export default function AfconTimeline({ className }: AfconTimelineProps) {
     return (
-        <PageSection className={cn('bg-[var(--apsonic-ink)] py-20', className)}>
-            <Container>
+        <PageSection className={cn('relative overflow-hidden bg-gradient-to-br from-apsonic-ink/40 via-black/30 to-apsonic-ink/40 py-20', className)}>
+            <AnimatedBackground />
+
+            <Container className="relative z-10">
                 <SectionHeader
                     eyebrow="Our Journey"
                     title="A Partnership Across Continents"

@@ -53,6 +53,27 @@ export const modelsCarouselItems: ModelCarouselItem[] = [
     specs: "125cc • Cargo Rack",
     slug: "cargo-125",
   },
+  {
+    id: "sport-model",
+    name: "Apsonic Sport",
+    imageSrc: "/assets/images/home/img5.jpg",
+    specs: "150cc • Sport",
+    slug: "sport-150",
+  },
+  {
+    id: "urban-model",
+    name: "Apsonic Urban",
+    imageSrc: "/assets/images/home/img8.jpg",
+    specs: "125cc • City",
+    slug: "urban-125",
+  },
+  {
+    id: "cargo-pro",
+    name: "Apsonic Cargo Pro",
+    imageSrc: "/assets/images/home/img11.jpg",
+    specs: "150cc • Heavy Duty",
+    slug: "cargo-150-pro",
+  },
 ];
 
 export const viewerFrames = [

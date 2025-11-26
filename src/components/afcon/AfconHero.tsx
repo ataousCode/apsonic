@@ -1,8 +1,3 @@
-/**
- * AFCON Hero Component
- * Showcase APSONIC's role as Official Top Sponsor of AFCON 2024 & 2025
- */
-
 'use client';
 
 import React, { useEffect, useRef } from 'react';
@@ -14,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { afconHeroContent } from '@/data/afcon';
 import { prefersReducedMotion, ANIMATION_TIMINGS, EASINGS } from '@/lib/animations';
+import AnimatedBackground from '@/components/ui/AnimatedBackground';
 
 type AfconHeroProps = {
     className?: string;
@@ -91,36 +87,14 @@ export default function AfconHero({ className }: AfconHeroProps) {
         <section
             ref={containerRef}
             className={cn(
-                'relative overflow-hidden bg-gradient-to-br from-black via-apsonic-ink to-black py-20 md:py-32',
+                'relative overflow-hidden bg-gradient-to-br from-apsonic-ink/40 via-black/30 to-apsonic-ink/40 py-20 md:py-32',
                 className
             )}
         >
-            {/* Background Image with Overlay */}
-            <div className="absolute inset-0">
-                <CloudImage
-                    src="/assets/images/afcon/img1.jpg"
-                    alt="AFCON Stadium"
-                    width={1920}
-                    height={1080}
-                    className="h-full w-full object-cover opacity-20"
-                    priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-apsonic-ink/95 to-black/90" />
-            </div>
-
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0">
-                {/* Green glow */}
-                <div className="absolute top-0 right-0 h-96 w-96 bg-apsonic-green/20 blur-[120px] animate-pulse" />
-                <div className="absolute bottom-0 left-0 h-96 w-96 bg-yellow-500/10 blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-
-                {/* Grid Pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(28,160,73,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(28,160,73,0.1)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
-            </div>
+            <AnimatedBackground variant="bright" />
 
             <Container className="relative z-10">
                 <div className="mx-auto max-w-5xl text-center">
-                    {/* Eyebrow */}
                     <div className="afcon-eyebrow inline-flex items-center gap-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 px-6 py-2 backdrop-blur-sm">
                         <span className="text-2xl">🏆</span>
                         <span className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">

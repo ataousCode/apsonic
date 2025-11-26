@@ -1,16 +1,15 @@
 import Hero from "@/components/Hero";
 import Interactive360Viewer from "@/components/Interactive360Viewer";
 import GetToKnowApsonic from "@/components/GetToKnowApsonic";
-import FeatureShowcase from "@/components/FeatureShowcase";
 
 import ModelsCarousel from "@/components/ModelsCarousel";
-import BikeViewer from "@/components/BikeViewer";
+
 import ServiceAdvantages from "@/components/ServiceAdvantages";
 import PromoVideo from "@/components/PromoVideo";
 import DistributorCTA from "@/components/DistributorCTA";
 import ImpactHighlights from "@/components/ImpactHighlights";
 import AFCONSponsorship from "@/components/AFCONSponsorship";
-import { latest360Bike, getToKnowApsonicSlides, featureShowcase, modelsCarouselItems, viewerFrames } from "@/data/home";
+import { latest360Bike, getToKnowApsonicSlides, modelsCarouselItems } from "@/data/home";
 import { PageSection } from "@/components/ui/PageSection";
 
 
@@ -29,8 +28,6 @@ export default function Home() {
         />
       </PageSection>
       <GetToKnowApsonic title="Discover APSONIC." slides={getToKnowApsonicSlides} />
-
-      <FeatureShowcase features={featureShowcase} />
       <PageSection id="products" className="section-gradient">
 
         <ModelsCarousel items={modelsCarouselItems} />
@@ -38,9 +35,7 @@ export default function Home() {
       <PageSection id="impact" className="bg-[var(--apsonic-surface)]">
         <ImpactHighlights />
       </PageSection>
-      <PageSection id="viewer" className="bg-[var(--apsonic-surface-alt)]">
-        <BikeViewer frames={viewerFrames} />
-      </PageSection>
+
       <PageSection className="section-gradient">
         <ServiceAdvantages />
       </PageSection>

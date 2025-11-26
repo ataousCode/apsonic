@@ -3,25 +3,26 @@
 import { useState, useEffect, useRef } from 'react';
 import CloudImage from './CloudImage';
 import { cn } from '@/lib/utils';
+import { useAutoRotate } from '@/hooks/useAutoRotate';
 
-export type ApsonicCarouselSlide = {
+export type Slide = {
   id: string;
-  image: string;
-  imageAlt: string;
   title: string;
   description: string;
+  image: string;
+  imageAlt: string;
 };
 
 type GetToKnowApsonicProps = {
   title?: string;
-  slides: ApsonicCarouselSlide[];
+  slides: Slide[];
 };
 
 export default function GetToKnowApsonic({
   title = 'Get to know APSONIC.',
   slides,
 }: GetToKnowApsonicProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useAutoRotate(slides.length, 3000);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const prefersReducedMotion = useRef(false);
 
@@ -51,17 +52,6 @@ export default function GetToKnowApsonic({
     const nextIndex = (currentIndex + 1) % slides.length;
     goToSlide(nextIndex);
   };
-
-  // Auto-advance slides every 3 seconds
-  useEffect(() => {
-    if (prefersReducedMotion.current) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [slides.length]);
 
   const currentSlide = slides[currentIndex];
 

@@ -19,7 +19,7 @@ import DealerCard from "@/components/DealerCard";
 import DealerDetailModal from "@/components/DealerDetailModal";
 import FeaturedDealers from "@/components/FeaturedDealers";
 import CoverageMap from "@/components/CoverageMap";
-import MapboxDiagnostic from "@/components/MapboxDiagnostic";
+
 import {
   requestGeolocation,
   calculateDistance,
@@ -62,15 +62,15 @@ export default function DealersPage() {
   const handleFindNearMe = useCallback(async () => {
     setLoadingLocation(true);
     setLocationError(null);
-    
+
     try {
       const location = await requestGeolocation();
       setUserLocation(location);
       setSortBy("distance");
     } catch (error) {
       setLocationError(
-        error instanceof Error 
-          ? error.message 
+        error instanceof Error
+          ? error.message
           : "Unable to access your location. Please enable location services."
       );
     } finally {
@@ -81,7 +81,7 @@ export default function DealersPage() {
   // Filter and sort dealers
   const filteredDealers = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    
+
     // Filter by search query and category
     let dealers = dealerEntries.filter((dealer) => {
       const matchesQuery =
@@ -110,7 +110,7 @@ export default function DealersPage() {
   // Calculate distance for each dealer
   const dealersWithDistance = useMemo(() => {
     if (!userLocation) return filteredDealers.map(d => ({ dealer: d, distance: undefined }));
-    
+
     return filteredDealers.map(dealer => ({
       dealer,
       distance: calculateDistance(
@@ -273,7 +273,7 @@ export default function DealersPage() {
                   </svg>
                   <p className="text-lg font-semibold text-white/70">No dealers found</p>
                   <p className="mt-2 text-sm text-white/50">Try adjusting your search or filters</p>
-                  <Button 
+                  <Button
                     onClick={() => {
                       setQuery("");
                       setActiveFilter("all");
@@ -287,8 +287,8 @@ export default function DealersPage() {
                 </div>
               ) : (
                 dealersWithDistance.map(({ dealer, distance }) => (
-                  <DealerCard 
-                    key={dealer.id} 
+                  <DealerCard
+                    key={dealer.id}
                     dealer={dealer}
                     onViewDetails={handleViewDetails}
                     userLocation={userLocation || undefined}
@@ -306,9 +306,9 @@ export default function DealersPage() {
                 <p className="text-xs uppercase tracking-[0.4em] text-white/50">Interactive Map</p>
                 <p className="text-sm text-white/70 mt-1">Click markers to view dealer details</p>
               </div>
-              
+
               <div className="flex-1 min-h-[400px] lg:min-h-0 relative">
-                <DealerMap 
+                <DealerMap
                   dealers={filteredDealers}
                   activeFilter={activeFilter === 'all' ? 'all' : activeFilter}
                   onDealerSelect={handleDealerSelect}
@@ -334,7 +334,7 @@ export default function DealersPage() {
 
       {/* Coverage Map */}
       <CoverageMap dealers={dealerEntries} />
-      
+
       {/* Dealer Detail Modal */}
       {detailModalDealer && (
         <DealerDetailModal
@@ -343,18 +343,15 @@ export default function DealersPage() {
           distance={
             userLocation
               ? calculateDistance(
-                  userLocation.lat,
-                  userLocation.lng,
-                  detailModalDealer.coordinates.lat,
-                  detailModalDealer.coordinates.lng
-                )
+                userLocation.lat,
+                userLocation.lng,
+                detailModalDealer.coordinates.lat,
+                detailModalDealer.coordinates.lng
+              )
               : undefined
           }
         />
       )}
-      
-      {/* Temporary diagnostic panel */}
-      <MapboxDiagnostic />
     </main>
   );
 }
