@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { distributorCta, primaryNavLinks } from "@/data/navigation";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +46,7 @@ export default function NavBar() {
           >
             <Link href={distributorCta.href}>{distributorCta.label}</Link>
           </Button>
+          <LanguageSelector />
         </nav>
 
         <button
@@ -89,6 +91,9 @@ export default function NavBar() {
                   {distributorCta.label}
                 </Link>
               </Button>
+              <div className="mt-4 flex justify-center">
+                <LanguageSelector />
+              </div>
             </nav>
           </Container>
         </div>

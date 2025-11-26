@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import CloudImage from "./CloudImage";
 import { cn } from "@/lib/utils";
+import { useAutoRotate } from "@/hooks/useAutoRotate";
 
 export type FeatureCard = {
   id: string;
@@ -27,23 +27,7 @@ function FeatureCardItem({
   card: FeatureCard;
   index: number;
 }) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Auto-rotation effect - change image every 3 seconds
-  useEffect(() => {
-    if (!card.images || card.images.length <= 1) return;
-
-    autoRotateTimerRef.current = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % card.images.length);
-    }, 3000);
-
-    return () => {
-      if (autoRotateTimerRef.current) {
-        clearInterval(autoRotateTimerRef.current);
-      }
-    };
-  }, [card.images]);
+  const [currentImageIndex, setCurrentImageIndex] = useAutoRotate(card.images.length, 3000);
 
   return (
     <ScrollReveal direction="up" delay={index * 0.1}>
